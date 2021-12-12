@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="boardDAO">
+
+   <!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. -->
+   
+   <!-- 1:1문의 조회 -->
+   <select id="qnaList" parameterType="boardVo" resultType="boardVo">
+      SELECT ROWNUM , a.*
+      FROM qna a
+      ORDER BY ROWNUM DESC
+   </select>
+   
+   <!-- 상품후기 상세 - -->
+   <select id="qnaDetail" parameterType="String" resultType="boardVo">
+      SELECT *
+      FROM qna
+      WHERE qna_no = #{qnaNo}
+   </select>
+   
+   <!-- 공지사항 조회 -->
+   <select id="noticeList" parameterType="boardVo" resultType="boardVo">
+      SELECT ROWNUM , a.*
+      FROM notice a
+      ORDER BY ROWNUM DESC
+   </select>
+   
+   <!-- 공지사항 상세 - -->
+   <select id="noticeDetail" parameterType="String" resultType="boardVo">
+      SELECT *
+      FROM notice
+      WHERE notice_no = #{noticeNo}
+   </select>
+   
+   <!-- 공지사항 쓰기 - 관리자 -->
+   <insert id="writeNotice" parameterType="boardVo">
+      INSERT INTO notice (
+         notice_no,
+         notice_type,
+         notice_title,
+         notice_content,
+         rgst_time,
+         udt_time,
+         file_name
+      ) VALUES(
+         (SELECT NVL(MAX(notice_no),0)+1 FROM notice),
+         #{noticeType},
+         #{noticeTitle},
+         #{noticeContent},
+         #{rgstTime},
+         #{udtTime},
+         #{fileName}
+      )
+      
+   </insert>
+   
+   <!-- 공지사항 수정 -->
+   <update id="updateNotice" parameterType="boardVo">
+      UPDATE 
+         notice
+      SET
+         notice_title = #{noticeTitle}, 
+         notice_content = #{noticeContent},
+         file_name = #{fileName}
+      WHERE notice_no = #{noticeNo}
+   </update>
+   
+   <!-- 공지사항 삭제 -->
+   <delete id="deleteNotice" parameterType="boardVo">
+      DELETE FROM notice
+      WHERE notice_no = #{noticeNo}
+   </delete>
+   
+   <!-- 공지사항 조회수 올리기 -->
+   <update id="noticeCnt">
+      update notice set count = count + 1 where notice_no= #{noticeNo}
+   </update>
+   
+   <!-- 상품후기 게시판 조회 -->
+   <select id="reviewList" parameterType="boardVo" resultType="boardVo">
+      SELECT ROWNUM , a.*
+      FROM review a
+      ORDER BY ROWNUM DESC
+   </select>
+   
+   <!-- 상품후기 상세 - -->
+   <select id="reviewDetail" parameterType="String" resultType="boardVo">
+      SELECT *
+      FROM review
+      WHERE review_no = #{reviewNo}
+   </select>
+   
+   <!-- 상품후기 상세 - 상품정보 보여주기 -->
+   <select id="productDetail" parameterType="String" resultType="boardVo">
+      SELECT *
+      FROM product
+      WHERE product_no = #{productNo}
+   </select>
+   
+   <!-- 상품후기 수정 -->
+   <update id="updateReview" parameterType="boardVo">
+      UPDATE 
+         review
+      SET
+         review_title = #{reviewTitle}, 
+         grade = #{grade},
+         review_content = #{reviewContent},
+         file_name = #{fileName}
+      WHERE review_no = #{reviewNo}
+   </update>
+   
+   <!-- 상품후기 쓰기 -->
+   <insert id="writeReview" parameterType="boardVo">
+      INSERT INTO review (
+         review_no,
+         product_no,
+         prodcut_name,
+         user_no,
+         user_name,
+         product_size,
+         product_color,
+         review_title,
+         review_content,
+         rgst_time,
+         udt_time,
+         main_img,
+         grade,
+         email
+      ) VALUES(
+         (SELECT NVL(MAX(review_no),0)+1 FROM review),
+         #{productNo},
+         #{prodcutName},
+         #{userNo},
+         #{userName},
+         #{productSize},
+         #{productColor},
+         #{reviewTitle},
+         #{reviewContent},
+         #{rgstTime},
+         #{udtTime},
+         #{mainImg},
+         #{grade},
+         #{email}
+      )
+      
+   </insert>
+   
+   <!-- 상품후기 삭제 -->
+   <delete id="deleteReview" parameterType="boardVo">
+      DELETE FROM review
+      WHERE review_no = #{reviewNo}
+   </delete>
+   
+</mapper>

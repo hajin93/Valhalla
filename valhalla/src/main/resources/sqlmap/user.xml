@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="userDAO">
+
+	<!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. -->
+	<select id="selectUserList" parameterType="userVo" resultType="userVo">
+		SELECT USER_ID, USER_PW
+		  FROM USERS
+	</select>
+	
+	<insert id="insertJoinInfo" parameterType="userVo">
+		INSERT INTO USERS(
+		    USER_NO
+		   ,USER_ID
+		   ,USER_PW
+		   ,USER_NAME
+		   ,USER_JUMIN
+		   ,PHONE
+		   ,EMAIL
+		   ,RGST_TIME
+		   ,UDT_TIME
+		   ,GUBN
+		) VALUES (
+			(SELECT NVL(MAX(USER_NO),0)+1 FROM USERS)
+		   ,#{userId}
+		   ,#{userPw}
+		   ,#{userName}
+		   ,#{userJumin}
+		   ,#{phone}
+		   ,#{email}
+		   ,#{rgstTime}
+		   ,#{udtTime}
+		   ,#{gubn}
+		)
+	</insert>
+	
+	<select id="duplicate" parameterType="userVo" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM USERS
+		 WHERE USER_ID = #{userId}
+	</select>
+	
+	<select id="searchId" parameterType="userVo" resultType="userVo">
+		SELECT *
+		  FROM USERS
+		 WHERE USER_NAME = #{userName}
+		   AND EMAIL = #{email} 
+	</select>
+	
+	<select id="userInfo" parameterType="userVo" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM USERS
+		 WHERE USER_NAME = #{userName}
+		   AND EMAIL = #{email}
+	</select>
+	
+	<update id="updatePw" parameterType="userVo">
+		UPDATE USERS 
+		   SET USER_PW = #{userPw} 
+		 WHERE USER_NAME = #{userName}
+		   AND EMAIL = #{email}
+	</update>
+	
+	<select id="loginChking" parameterType="userVo" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM USERS
+		 WHERE USER_ID = #{userId}
+		   AND USER_PW = #{userPw}
+	</select>
+	
+	<select id="userInfoSession" parameterType="userVo" resultType="userVo">
+		SELECT *
+		  FROM USERS
+		 WHERE USER_ID = #{userId}
+	</select>
+</mapper>
