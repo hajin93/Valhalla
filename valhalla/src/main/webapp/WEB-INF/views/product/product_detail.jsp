@@ -152,7 +152,7 @@
 														</td>
 															<td>
 															<span class="quantity" style="width: 65px;">
-																<input type="text" name="pop_out" class="quantity_opt eProductQuantityClass" value="1" >
+																<input type="text" id="proCount" name="pop_out" class="quantity_opt eProductQuantityClass" value="1" >
 															<a href="#none" class="up eProductQuantityUpClass" data-target="option_box3_up" onclick="fnCalCount('p',this);">
 																<img src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif" id="option_box3_up" class="option_box_up" alt="수량증가">
 															</a>
@@ -163,7 +163,7 @@
 															</td>
 															<td class="right">
 															<span id="option_box3_price">
-																<span class="ec-front-product-item-price" ><fmt:formatNumber value="" pattern="#,###" id="tprice" name="tprice" />원</span>
+																<span class="ec-front-product-item-price" ><fmt:formatNumber value="${proList.productPrice}" pattern="#,###" />원</span>
 															</span>
 														</td>
 													</tr>
@@ -178,8 +178,11 @@
 							</div>
 
 							<div id="totalPrice" class="totalPrice">
-								<strong class="title">TOTAL <span class="qty">(QUANTITY)</span></strong>
-								<span class="total"><strong><em>42,000원</em></strong> (3개)</span>
+								<strong class="title">TOTAL <span class="qty">(QUANTITY)</span>
+								</strong>
+							
+								<span class="total"><strong><span id="totalPricem"><fmt:formatNumber value="${proList.productPrice}" pattern="#,###" />원 (1개)</span></strong></span>
+								
 							</div>
 							<p class="ec-base-help displaynone EC-price-warning">할인가가 적용된 최종 결제예정금액은 주문 시 확인할 수 있습니다.</p>
 
@@ -194,7 +197,6 @@
 									<button type="button" class="btnNormal sizeL actionWish " onclick="add_wishlist(this, true);" id="actionWish">위시리스트</button>
 									</span>
 								</div>
-								
 								<!-- 네이버 체크아웃 구매 버튼  -->
 								<div id="NaverChk_Button" style="display: none;"></div>
 							</div>
@@ -340,7 +342,12 @@
 	<input type="hidden" id="productCategory" name="productCategory" value=""/>
 </form> 
 <input type="hidden" id="stockQuantity" name="stockQuantity" value="${proList.stockQuantity}"/>
-<input type="hidden" id="tprice" name="tprice" value="${proList.productPrice}" />
+<input type="hidden" id="proPrice" name="proPrice" value="${proList.productPrice}"/>
+
+<form id="" method="post" action="">
+	<input type="hidden" id="tprice" name="tprice" value="" /> <!-- 총가격 -->
+</form>
+
 <%@ include file="../common/footer.jsp" %>
 </body>
 <script type="text/javascript">
@@ -376,23 +383,22 @@ $( document ).ready(function() {
 
 //상품 선택 갯수 부분 
 function fnCalCount(type, ths){
-	var tprice = $('#tprice').val();
-    var $input = $(ths).parents("td").find("input[name='pop_out']"); // td가 부모
+	
+    var $input = $(ths).parents("td").find("input[name='pop_out']"); // td가 부모이면서 input의 name이 pop_out인것
     var tCount = Number($input.val());
     var tEqCount = Number($('#stockQuantity').val());//재고 이상으로 카운트가 올라가는 것을 방지
     
     if(type=='p'){
-        if(tCount < tEqCount) {
-        	$input.val(Number(tCount)+1);
-        	
-        }
-        
-    }else if(tCount >0){
-        $input.val(Number(tCount)-1);
+    	if(tCount < tEqCount) $input.val(Number(tCount)+1);
+        }else{
+        	if(tCount >0) $input.val(Number(tCount)-1);
+		}
+    var proCount = $('#proCount').val();
+    var proPrice = $('#proPrice').val();
+    var totalPrice = proPrice*proCount;
+    
+    $('#totalPricem').text(comma(totalPrice)+"원 ("+proCount+"개)");
 	}
-}
-	
 
-	
 </script>
 </html>
