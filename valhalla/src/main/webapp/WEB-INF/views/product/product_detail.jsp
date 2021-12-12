@@ -194,10 +194,7 @@
 									<button type="button" class="btnNormal sizeL actionWish " onclick="add_wishlist(this, true);" id="actionWish">위시리스트</button>
 									</span>
 								</div>
-								<!-- <div class="ec-base-button soldout displaynone ">
-									<button type="button" class="btnSubmit gFull sizeL displaynone">SOLD OUT</button>
-									<button type="button" class="btnNormal gFull sizeL " onclick="add_wishlist(this, true);" id="actionWishSoldout">위시리스트</button>
-								</div> -->
+								
 								<!-- 네이버 체크아웃 구매 버튼  -->
 								<div id="NaverChk_Button" style="display: none;"></div>
 							</div>
