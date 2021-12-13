@@ -78,15 +78,8 @@
 									</tbody>
 								</table>
 							</div>
-
-							<!-- <p class="displaynone">
-								<img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/txt_naver.gif" alt="개인결제창을 통한 결제 시 네이버 마일리지 적립 및 사용이 가능합니다.">
-							</p> -->
-
 							<div class="productOption">
-								<table border="1"
-									class="xans-element- xans-product xans-product-option xans-record-">
-									
+								<table border="1" class="xans-element- xans-product xans-product-option xans-record-"> 
 									<caption>상품 옵션</caption>
 									<tbody class="xans-element- xans-product xans-product-option xans-record-">
 										<tr>
@@ -180,14 +173,9 @@
 							<div id="totalPrice" class="totalPrice">
 								<strong class="title">TOTAL <span class="qty">(QUANTITY)</span>
 								</strong>
-							
 								<span class="total"><strong><span id="totalPricem"><fmt:formatNumber value="${proList.productPrice}" pattern="#,###" />원 (1개)</span></strong></span>
-								
 							</div>
-							<p class="ec-base-help displaynone EC-price-warning">할인가가 적용된 최종 결제예정금액은 주문 시 확인할 수 있습니다.</p>
-
-							<div id=""
-								class="xans-element- xans-product xans-product-action productAction">
+							<div id="" class="xans-element- xans-product xans-product-action productAction">
 								<div class=" ">
 									<a href="#none" class="btnSubmit gFull sizeL " onclick="product_submit(1, '/exec/front/order/basket/', this)">
 									<span id="actionBuy">바로구매</span>
@@ -200,20 +188,20 @@
 								<!-- 네이버 체크아웃 구매 버튼  -->
 								<div id="NaverChk_Button" style="display: none;"></div>
 							</div>
-							<div id="orderFixArea"
-								class="xans-element- xans-product xans-product-action ec-base-button gFixed ">
+							<!-- 모바일 볼 때 아래 붚어다니는 선택창 -->
+							<div id="orderFixArea" class="xans-element- xans-product xans-product-action ec-base-button gFixed "> 
+								<!-- 재고가 있을때 보여져야하는 버튼 시작-->
 								<div class="ec-base-button gColumn ">
-									<button type="button" class="btnNormal sizeM actionCart "
-										onclick="product_submit(2, '/exec/front/order/basket/', this)">장바구니</button>
-									<a href="#none" class="btnSubmit sizeM "
-										onclick="product_submit(1, '/exec/front/order/basket/', this)">
-										<span id="actionBuy">바로구매</span>
-										</a>
+									<button type="button" class="btnNormal sizeM actionCart " onclick="product_submit(2, '/exec/front/order/basket/', this)">장바구니</button>
+									<a href="#none" class="btnSubmit sizeM " onclick="product_submit(1, '/exec/front/order/basket/', this)"> <span id="actionBuy">바로구매</span></a>
 								</div>
+								<!-- 재고가 있을때 보여져야하는 버튼 끝-->
+								<!-- 품절시 보여야하는 버튼 시작-->
 								<div class="ec-base-button gColumn displaynone">
 									<button type="button" class="btnSubmit sizeM displaynone">SOLD OUT</button>
 									<button type="button" class="btnNormal sizeM " onclick="add_wishlist(this, true);" id="actionWishSoldout">위시리스트</button>
 								</div>
+								<!-- 품절시 보여야하는 버튼 끝-->
 							</div>
 						</div>
 					</div>
@@ -249,7 +237,7 @@
 							<ul class="info delivery">
 								<li>배송 방법 : 일반등기</li>
 								<li>배송 지역 : 서울/경기</li>
-								<li>배송 비용 : 4,000원 ~ <strong>20,000원</strong></li>
+								<li>배송 비용 : <strong>무료배송</strong></li>
 								<li>배송 기간 : 1일 ~ 3일</li>
 								<li>배송 안내 : - 산간벽지나 도서지방은 별도의 추가금액을 지불하셔야 하는 경우가 있습니다.<br>
 									고객님께서 주문하신 상품은 입금 확인후 배송해 드립니다. 다만, 상품종류에 따라서 상품의 배송이 다소 지연될 수
@@ -298,11 +286,9 @@
 						<div class="contents">
 							<p class="nodata" data-i18n="PRODUCT.BOARD_NODATA">게시물이 없습니다</p>
 							<div class="ec-base-button gMColumn">
-								<span class="gRight"> <a
-									href="/board/product/list.html?board_no=4&amp;link_product_no=21"
-									class="btnNormalFix sizeM">전체 보기</a> <a
-									href="/board/product/write.html?board_no=4&amp;product_no=21&amp;cate_no=28&amp;display_group=3"
-									class="btnSubmitFix sizeM">리뷰작성</a>
+								<span class="gRight">
+									<a href="/board/product/list.html?board_no=4&amp;link_product_no=21" class="btnNormalFix sizeM">전체 보기</a> 
+									<a href="/board/product/write.html?board_no=4&amp;product_no=21&amp;cate_no=28&amp;display_group=3" class="btnSubmitFix sizeM">리뷰작성</a>
 								</span>
 							</div>
 						</div>
@@ -314,11 +300,9 @@
 						<div class="contents">
 							<p class="nodata" data-i18n="PRODUCT.BOARD_NODATA">게시물이 없습니다</p>
 							<div class="ec-base-button gMColumn">
-								<span class="gRight"> <a
-									href="/board/product/list.html?board_no=6&amp;link_product_no=21"
-									class="btnNormalFix sizeM">전체 보기</a> <a
-									href="/board/product/write.html?board_no=6&amp;product_no=21&amp;cate_no=28&amp;display_group=3"
-									class="btnSubmitFix sizeM">상품문의하기</a>
+								<span class="gRight">
+								<a href="/board/product/list.html?board_no=6&amp;link_product_no=21" class="btnNormalFix sizeM">전체 보기</a> 
+								<a href="/board/product/write.html?board_no=6&amp;product_no=21&amp;cate_no=28&amp;display_group=3" class="btnSubmitFix sizeM">상품문의하기</a>
 								</span>
 							</div>
 						</div>
@@ -345,7 +329,7 @@
 <input type="hidden" id="proPrice" name="proPrice" value="${proList.productPrice}"/>
 
 <form id="" method="post" action="">
-	<input type="hidden" id="tprice" name="tprice" value="" /> <!-- 총가격 -->
+	
 </form>
 
 <%@ include file="../common/footer.jsp" %>
@@ -393,11 +377,11 @@ function fnCalCount(type, ths){
         }else{
         	if(tCount >0) $input.val(Number(tCount)-1);
 		}
-    var proCount = $('#proCount').val();
-    var proPrice = $('#proPrice').val();
-    var totalPrice = proPrice*proCount;
+    var proCount = $('#proCount').val(); //상품선택 개수
+    var proPrice = $('#proPrice').val(); //상품가격
+    var totalPrice = proPrice*proCount; //총가격 = 선택된 상품 개수* 상품 가격
     
-    $('#totalPricem').text(comma(totalPrice)+"원 ("+proCount+"개)");
+    $('#totalPricem').text(comma(totalPrice)+"원 ("+proCount+"개)"); //html 상에서  콤마가 들어가서 보이게 하기위해 fmt사용했지만 함수사용으로 갈아치기 위해 comma함수 사용하면서 text로 갈아침
 	}
 
 </script>
