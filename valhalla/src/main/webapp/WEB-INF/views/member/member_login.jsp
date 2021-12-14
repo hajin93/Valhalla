@@ -4,11 +4,10 @@
 <html lang="ko">
 <head>
 <%@ include file="../common/memberCss.jsp" %>
-
 <%@ include file="../common/header.jsp" %>
 
 <hr class="layout">
-	<aside id="aside" class="xans-element- xans-layout xans-layout-slidepackage ">
+	<!-- <aside id="aside" class="xans-element- xans-layout xans-layout-slidepackage ">
 		<nav class="navigation-menu" role="navigation">
 			<div class="navigation-menu__member">
 				<div class="xans-element- xans-layout xans-layout-statelogoff ">
@@ -24,7 +23,7 @@
 		<button type="button" class="btnClose">
 			<i aria-hidden="true" class="icon icoClose"></i>닫기
 		</button>
-	</aside>
+	</aside> -->
 	<div id="container">
 		<div id="contents">
 			<span class="xans-element- xans-layout xans-layout-mobileaction RTMB ">
@@ -135,9 +134,19 @@ $(function(){
 					//세션 올려두기
 					localStorage.setItem("userId", data.list.userId);
 					localStorage.setItem("userName", data.list.userName);
-					localStorage.setItem("phone", data.list.userId);
+					localStorage.setItem("phone", data.list.phone);
 					localStorage.setItem("email", data.list.email);
 					localStorage.setItem("gubn", data.list.gubn);//관리자인지 유저인지 구분하는 구분값 (m관리자 , u사용자)
+					
+					if(data.list.zipcode){
+	                  localStorage.setItem("zipcode" , data.list.zipcode);
+	                }
+	                if(data.list.address){
+	                   localStorage.setItem("address", data.list.address);
+	                }
+	                if(data.list.detailAddress){
+	                   localStorage.setItem("detailAddress", data.list.detailAddress);
+	                }
 					
 					$('#sessionUserId').val(data.list.userId);
 					$('#sessionUserName').val(data.list.userName);

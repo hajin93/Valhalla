@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import board.vo.BoardVO;
+import common.Criteria;
 
 @Transactional
 @Component
@@ -24,8 +25,8 @@ public class BoardDAO {
 		return sqlSession.selectOne("boardDAO.qnaDetail", qnaNo);
 	}
 
-	public List<BoardVO> noticeList(BoardVO boardVo) {
-		return sqlSession.selectList("boardDAO.noticeList", boardVo);
+	public List<BoardVO> noticeList(Criteria criteria) {
+		return sqlSession.selectList("boardDAO.noticeList", criteria);
 	}
 	
 	public BoardVO noticeDetail(String noticeNo) {
@@ -68,4 +69,7 @@ public class BoardDAO {
 		sqlSession.delete("boardDAO.deleteReview", boardVo);
 	}
 
+	public int listCount(BoardVO boardVo) {
+		return sqlSession.selectOne("boardDAO.listCnt", boardVo);
+	}
 }

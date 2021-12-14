@@ -4,7 +4,9 @@ import lombok.Data;
 
 @Data
 public class BoardVO {
-	/* °øÁö»çÇ× - notice */
+	/* æ€¨ë“­ï¿½ï¿½ê¶—ï¿½ë¹† - notice */
+	private String RNUM;
+	private String count;
 	private String noticeNo;
 	private String noticeType;
 	private String noticeTitle;
@@ -12,7 +14,7 @@ public class BoardVO {
 	private String rgstTime;
 	private String udtTime;
 
-	/* 1:1 ¹®ÀÇ - QnA */
+	/* 1:1 è‡¾ëª„ì“½ - QnA */
 	private String qnaNo;
 	private String qnaType;
 	private String qnaTitle;
@@ -22,7 +24,7 @@ public class BoardVO {
 	private String userName;
 	private String email;
 
-	/* »óÇ°ÈÄ±â °Ô½ÃÆÇ - Review */
+	/* ï¿½ê¸½ï¿½ë­¹ï¿½ì‘æ¹²ï¿½ å¯ƒëš¯ë–†ï¿½ë™‹ - Review */
 	private String reviewNo;
 	private String productNo;
 	private String productName;
@@ -34,7 +36,7 @@ public class BoardVO {
 	private String grade;
 	private String fileName;
 
-	/* »óÇ° */
+	/* ï¿½ê¸½ï¿½ë­¹ */
 	private String productPrice;
 	private String stockQuantity;
 }

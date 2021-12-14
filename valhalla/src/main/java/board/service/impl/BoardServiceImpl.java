@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import board.service.BoardService;
 import board.service.dao.BoardDAO;
 import board.vo.BoardVO;
+import common.Criteria;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
@@ -26,8 +27,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> noticeList(BoardVO boardVo) {
-		return boardDao.noticeList(boardVo);
+	public List<BoardVO> noticeList(Criteria criteria) {
+		return boardDao.noticeList(criteria);
 	}
 
 	@Override
@@ -78,6 +79,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void deleteReview(BoardVO boardVo) {
 		boardDao.deleteReview(boardVo);
+	}
+
+	@Override
+	public int listCount(BoardVO boardVo) {
+		return boardDao.listCount(boardVo);
 	}
 
 }

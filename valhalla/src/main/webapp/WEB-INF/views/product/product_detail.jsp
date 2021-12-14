@@ -29,8 +29,8 @@
 							<div class="RW ">
 								<div class="prdImg">
 									<div class="thumbnail">
-										<a href="#none;" alt="P000000V" >
-											<img src="${pageContext.request.contextPath}/resources/img/product${proList.mainImg}" alt="REGULAR FIT CREW-NECK T-SHIRT" class="BigImage ">
+										<a href="#none;" alt="" >
+											<img src="${pageContext.request.contextPath}/resources/img/product${proList.mainImg}" alt="상품이미지" class="BigImage ">
 										</a>
 									</div>
 								</div>
@@ -51,7 +51,7 @@
 									<tbody>
 										<tr class=" xans-record-">
 											<th scope="row">
-												<span style="font-size: 16px; color: #000000;" data-i18n="PRODUCT.PRD_INFO_PRODUCT_NAME">상품명</span>
+												<span style="font-size: 16px; color: #000000;">상품명</span>
 											</th>
 											<td>
 											<span style="font-size: 16px; color: #000000;">${proList.productName}</span>
@@ -59,7 +59,7 @@
 										</tr>
 										<tr class=" xans-record-">
 											<th scope="row">
-												<span style="font-size: 13px; color: #000000; font-weight: bold;" data-i18n="PRODUCT.PRD_INFO_PRODUCT_PRICE">판매가</span>
+												<span style="font-size: 13px; color: #000000; font-weight: bold;">판매가</span>
 											</th>
 											<td>
 												<span style="font-size: 13px; color: #000000; font-weight: bold;">
@@ -69,7 +69,7 @@
 										</tr>
 										<tr class=" xans-record-">
 											<th scope="row">
-												<span style="font-size: 13px; color: #000000;"data-i18n="PRODUCT.PRD_INFO_PRODUCT_CODE">상품코드</span>
+												<span style="font-size: 13px; color: #000000;">상품코드</span>
 											</th>
 											<td>
 												<span style="font-size: 13px; color: #000000;">${proList.productNo}</span>
@@ -85,8 +85,8 @@
 										<tr>
 											<th scope="row">Color</th>
 											<td>
-											<ul option_product_no="21" option_select_element="ec-option-select-finder" option_sort_no="2" option_type="T" item_listing_type="S" option_title="Size" product_type="product_option" product_option_area="product_option_21_0" option_style="button" ec-dev-id="product_option_id2" ec-dev-name="option2" ec-dev-class="ProductOption0" class="ec-product-button" required="true">
-												<li class="ec-product-selected" option_value="M" link_image="" title="Free">
+											<ul  class="ec-product-button">
+												<li class="ec-product-selected" title="Free">
 													<a href="#none">
 													<span>OneColor</span>
 													</a>
@@ -99,8 +99,8 @@
 										<tr>
 											<th scope="row">Size</th>
 											<td>
-												<ul option_product_no="21" option_select_element="ec-option-select-finder" option_sort_no="2" option_type="T" item_listing_type="S" option_title="Size" product_type="product_option" product_option_area="product_option_21_0" option_style="button" ec-dev-id="product_option_id2" ec-dev-name="option2" ec-dev-class="ProductOption0" class="ec-product-button" required="true">
-													<li class="ec-product-selected" option_value="M" link_image="" title="Free">
+												<ul  class="ec-product-button">
+												<li class="ec-product-selected" title="Free">
 														<a href="#none">
 															<span>Free</span>
 														</a>
@@ -121,21 +121,9 @@
 							<div id="totalProducts" class=" ">
 								<table border="1">
 									<tbody class="option_products">
-										<tr class="option_product " data-option-index="3"target-key="21">
+										<tr class="option_product ">
 											<td colspan="3">
 											<table>
-												<colgroup>
-													<col style="width: 284px;">
-													<col style="width: 80px;">
-													<col style="width: 110px;">
-												</colgroup>
-												<thead>
-													<tr>
-														<th scope="col">상품명</th>
-														<th scope="col">상품수</th>
-														<th scope="col">가격</th>
-													</tr>
-												</thead>
 												<tbody>
 													<tr>
 														<td>
@@ -177,12 +165,12 @@
 							</div>
 							<div id="" class="xans-element- xans-product xans-product-action productAction">
 								<div class=" ">
-									<a href="#none" class="btnSubmit gFull sizeL " onclick="product_submit(1, '/exec/front/order/basket/', this)">
-									<span id="actionBuy">바로구매</span>
+									<a href="#none" class="btnSubmit gFull sizeL ">
+										<span id="actionBuy">바로구매</span>
 									</a> 
 									<span class="gActionButtonColumn">
-									<button type="button" class="btnNormal sizeL RW actionCart " onclick="product_submit(2, '/exec/front/order/basket/', this)" id="actionCart">장바구니</button>
-									<button type="button" class="btnNormal sizeL actionWish " onclick="add_wishlist(this, true);" id="actionWish">위시리스트</button>
+									<button type="button" class="btnNormal sizeL RW actionCart" id="actionCart">장바구니</button>
+									<button type="button" class="btnNormal sizeL actionWish " id="actionWish">위시리스트</button>
 									</span>
 								</div>
 								<!-- 네이버 체크아웃 구매 버튼  -->
@@ -191,16 +179,16 @@
 							<!-- 모바일 볼 때 아래 붚어다니는 선택창 -->
 							<div id="orderFixArea" class="xans-element- xans-product xans-product-action ec-base-button gFixed "> 
 								<!-- 재고가 있을때 보여져야하는 버튼 시작-->
-								<div class="ec-base-button gColumn ">
+								<!-- <div class="ec-base-button gColumn ">
 									<button type="button" class="btnNormal sizeM actionCart " onclick="product_submit(2, '/exec/front/order/basket/', this)">장바구니</button>
 									<a href="#none" class="btnSubmit sizeM " onclick="product_submit(1, '/exec/front/order/basket/', this)"> <span id="actionBuy">바로구매</span></a>
-								</div>
+								</div> -->
 								<!-- 재고가 있을때 보여져야하는 버튼 끝-->
 								<!-- 품절시 보여야하는 버튼 시작-->
-								<div class="ec-base-button gColumn displaynone">
+								<!-- <div class="ec-base-button gColumn displaynone">
 									<button type="button" class="btnSubmit sizeM displaynone">SOLD OUT</button>
 									<button type="button" class="btnNormal sizeM " onclick="add_wishlist(this, true);" id="actionWishSoldout">위시리스트</button>
-								</div>
+								</div> -->
 								<!-- 품절시 보여야하는 버튼 끝-->
 							</div>
 						</div>
@@ -271,14 +259,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="ec-base-fold theme1 selected eToggle">
-						<div class="title">
-							<h2>서비스문의</h2>
-						</div>
-						<div class="contents">
-							<div class="info"></div>
-						</div>
-					</div>
 					<div class="ec-base-fold theme1 selected eToggle ">
 						<div class="title">
 							<h2>상품리뷰</h2>
@@ -287,8 +267,7 @@
 							<p class="nodata" data-i18n="PRODUCT.BOARD_NODATA">게시물이 없습니다</p>
 							<div class="ec-base-button gMColumn">
 								<span class="gRight">
-									<a href="/board/product/list.html?board_no=4&amp;link_product_no=21" class="btnNormalFix sizeM">전체 보기</a> 
-									<a href="/board/product/write.html?board_no=4&amp;product_no=21&amp;cate_no=28&amp;display_group=3" class="btnSubmitFix sizeM">리뷰작성</a>
+									<a href="/reviewList.do" class="btnNormalFix sizeM">전체 보기</a> 
 								</span>
 							</div>
 						</div>
@@ -301,21 +280,21 @@
 							<p class="nodata" data-i18n="PRODUCT.BOARD_NODATA">게시물이 없습니다</p>
 							<div class="ec-base-button gMColumn">
 								<span class="gRight">
-								<a href="/board/product/list.html?board_no=6&amp;link_product_no=21" class="btnNormalFix sizeM">전체 보기</a> 
-								<a href="/board/product/write.html?board_no=6&amp;product_no=21&amp;cate_no=28&amp;display_group=3" class="btnSubmitFix sizeM">상품문의하기</a>
+								<a href="/qnaList.do" class="btnNormalFix sizeM">전체 보기</a>
 								</span>
 							</div>
 						</div>
 					</div>
 				</div>
-				<span class="xans-element- xans-layout xans-layout-mobileaction RTMB ">
+				<!-- 폰 뒤로가기 버튼 -->
+				<!-- <span class="xans-element- xans-layout xans-layout-mobileaction RTMB ">
 					<a href="#none" onclick="history.go(-1);return false;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="icon">
 							<path stroke="#000" stroke-width="1.5" d="M9.826 20L2 12.5 9.826 5M2 12.5h20"></path>
 						</svg>
 						<span>뒤로가기</span>
 					</a>
-				</span>	
+				</span>	 -->
 			</div>
 			<hr class="layout">
 		</div>
@@ -382,7 +361,7 @@ function fnCalCount(type, ths){
     var totalPrice = proPrice*proCount; //총가격 = 선택된 상품 개수* 상품 가격
     
     $('#totalPricem').text(comma(totalPrice)+"원 ("+proCount+"개)"); //html 상에서  콤마가 들어가서 보이게 하기위해 fmt사용했지만 함수사용으로 갈아치기 위해 comma함수 사용하면서 text로 갈아침
-	}
+}
 
 </script>
 </html>

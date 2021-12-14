@@ -2,7 +2,9 @@ package board;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import board.service.impl.BoardServiceImpl;
 import board.vo.BoardVO;
+import common.Criteria;
+import common.PageMaker;
 
 @Controller
 @RequestMapping("/")
@@ -28,24 +32,24 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
-	private static final String FILE_PATH = "¾÷·ÎµåµÉ °æ·Î ÁöÁ¤"; // file-upload
+	private static final String FILE_PATH = "ï¿½ë¾½æ¿¡ì’•ë±¶ï¿½ë§† å¯ƒìˆì¤ˆ ï§ï¿½ï¿½ì ™"; // file-upload
 
-	// 1:1¹®ÀÇ °Ô½ÃÆÇ
+	// 1:1è‡¾ëª„ì“½ å¯ƒëš¯ë–†ï¿½ë™‹
 	@RequestMapping("qnaList.do")
 	public String qna_list(Model model, BoardVO boardVo) {
 		List<BoardVO> qnaList = boardServiceImpl.qnaList(boardVo);
 		model.addAttribute("qnaList", qnaList);
-		logger.debug("logÂï±â");
+		logger.debug("logï§¡ë»ë¦°");
 		return "/board/qna/qnaList";
 	}
 
-	// 1:1¹®ÀÇ ¼öÁ¤
+	// 1:1è‡¾ëª„ì“½ ï¿½ë‹”ï¿½ì ™
 	@RequestMapping("qnaModify.do")
 	public String qna_modify() {
 		return "/board/qna/qnaModify";
 	}
 
-	// 1:1¹®ÀÇ »ó¼¼
+	// 1:1è‡¾ëª„ì“½ ï¿½ê¸½ï¿½ê½­
 	@RequestMapping("qnaRead.do")
 	public String qna_read(Model model, String qnaNo) {
 		BoardVO qnaDetail = boardServiceImpl.qnaDetail(qnaNo);
@@ -53,27 +57,36 @@ public class BoardController {
 		return "/board/qna/qnaRead";
 	}
 
-	// 1:1¹®ÀÇ ´äº¯ - °ü¸®ÀÚ
+	// 1:1è‡¾ëª„ì“½ ï¿½ë–Ÿè¹‚ï¿½ - æ„¿ï¿½ç”±ÑŠì˜„
 	@RequestMapping("qnaReply.do")
 	public String qna_reply() {
 		return "/board/qna/qnaReply";
 	}
 
-	// 1:1¹®ÀÇ ¾²±â
+	// 1:1è‡¾ëª„ì“½ ï¿½ë²æ¹²ï¿½
 	@RequestMapping("qnaWrite.do")
 	public String qna_write() {
 		return "/board/qna/qnaWrite";
 	}
 
-	// °øÁö»çÇ× ¸ñ·Ï
+	// æ€¨ë“­ï¿½ï¿½ê¶—ï¿½ë¹† ï§â‘¸ì¤‰
 	@RequestMapping("noticeList.do")
-	public String notice_list(Model model, BoardVO boardVo) {
-		List<BoardVO> noticeList = boardServiceImpl.noticeList(boardVo);
+	public String notice_list(Model model, BoardVO boardVo, Criteria criteria) {
+		
+        List<BoardVO> noticeList = boardServiceImpl.noticeList(criteria);
+		
 		model.addAttribute("noticeList", noticeList);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(criteria);
+		pageMaker.setTotalCount(boardServiceImpl.listCount(boardVo));
+		
+		model.addAttribute("pageMaker", pageMaker);
+		
 		return "/board/notice/noticeList";
 	}
 
-	// °øÁö»çÇ× ÀĞ±â
+	// æ€¨ë“­ï¿½ï¿½ê¶—ï¿½ë¹† ï¿½ì”«æ¹²ï¿½
 	@RequestMapping("noticeRead.do")
 	public String notice_read(Model model, BoardVO boardVo, String noticeNo) {
 		BoardVO noticeDetail = boardServiceImpl.noticeDetail(noticeNo);
@@ -81,20 +94,20 @@ public class BoardController {
 		return "/board/notice/noticeRead";
 	}
 
-	// °øÁö»çÇ× ¾²±â - °ü¸®ÀÚ
+	// æ€¨ë“­ï¿½ï¿½ê¶—ï¿½ë¹† ï¿½ë²æ¹²ï¿½ - æ„¿ï¿½ç”±ÑŠì˜„
 	@RequestMapping("noticeWrite.do")
 	public String notice_write(Model model, BoardVO boardVo, String noticeNo) {
 		return "/board/notice/noticeWrite";
 	}
 
-	// °øÁö»çÇ× ¾²±â¿Ï·á - °ü¸®ÀÚ
+	// æ€¨ë“­ï¿½ï¿½ê¶—ï¿½ë¹† ï¿½ë²æ¹²ê³—ì…¿çŒ·ï¿½ - æ„¿ï¿½ç”±ÑŠì˜„
 	@RequestMapping("noticeWriteComplete.do")
 	public String write_complete(Model model, BoardVO boardVo) {
 		boardServiceImpl.writeNotice(boardVo);
 		return "redirect:/noticeList.do";
 	}
 
-	// °øÁö»çÇ× ¼öÁ¤ - °ü¸®ÀÚ
+	// æ€¨ë“­ï¿½ï¿½ê¶—ï¿½ë¹† ï¿½ë‹”ï¿½ì ™ - æ„¿ï¿½ç”±ÑŠì˜„
 	@RequestMapping("noticeModify.do")
 	public String notice_modify(Model model, HttpServletRequest request) {
 		String noticeNo = request.getParameter("noticeNum");
@@ -104,7 +117,7 @@ public class BoardController {
 		return "/board/notice/noticeModify";
 	}
 
-	// °øÁö»çÇ× ¼öÁ¤ ¿Ï·á
+	// æ€¨ë“­ï¿½ï¿½ê¶—ï¿½ë¹† ï¿½ë‹”ï¿½ì ™ ï¿½ì…¿çŒ·ï¿½
 	@RequestMapping("noticeModifyComplete.do")
 	public String notice_modifycomplete(Model model, BoardVO boardVo) {
 		boardServiceImpl.updateNotice(boardVo);
@@ -112,7 +125,7 @@ public class BoardController {
 		return "redirect:/noticeList.do";
 	}
 
-	// °øÁö»çÇ× »èÁ¦
+	// æ€¨ë“­ï¿½ï¿½ê¶—ï¿½ë¹† ï¿½ê¶˜ï¿½ì £
 	@RequestMapping("noticeDelete.do")
 	public String notice_delete(Model model, BoardVO boardVo) {
 		boardServiceImpl.deleteNotice(boardVo);
@@ -120,7 +133,7 @@ public class BoardController {
 		return "redirect:/noticeList.do";
 	}
 
-	// »óÇ°ÈÄ±â °Ô½ÃÆÇ ÆäÀÌÁö
+	// ï¿½ê¸½ï¿½ë­¹ï¿½ì‘æ¹²ï¿½ å¯ƒëš¯ë–†ï¿½ë™‹ ï¿½ëŸ¹ï¿½ì” ï§ï¿½
 	@RequestMapping("reviewList.do")
 	public String review_list(Model model, BoardVO boardVo, String productNo) {
 		List<BoardVO> review = boardServiceImpl.review(boardVo);
@@ -131,7 +144,7 @@ public class BoardController {
 		return "/board/review/reviewList";
 	}
 
-	// »óÇ°ÈÄ±â »ó¼¼º¸±â ÆäÀÌÁö
+	// ï¿½ê¸½ï¿½ë­¹ï¿½ì‘æ¹²ï¿½ ï¿½ê¸½ï¿½ê½­è¹‚ë‹¿ë¦° ï¿½ëŸ¹ï¿½ì” ï§ï¿½
 	@RequestMapping("reviewRead.do")
 	public String review_read(Model model, BoardVO boardVo, String productNo, String reviewNo) {
 		BoardVO productDetail = boardServiceImpl.productDetail(productNo);
@@ -142,7 +155,7 @@ public class BoardController {
 		return "/board/review/reviewRead";
 	}
 
-	// »óÇ°ÈÄ±â ¼öÁ¤ ÆäÀÌÁö
+	// ï¿½ê¸½ï¿½ë­¹ï¿½ì‘æ¹²ï¿½ ï¿½ë‹”ï¿½ì ™ ï¿½ëŸ¹ï¿½ì” ï§ï¿½
 	@RequestMapping("reviewModify.do")
 	public String review_modify(Model model, HttpServletRequest request) {
 		String productNo = request.getParameter("productNum");
@@ -156,7 +169,7 @@ public class BoardController {
 		return "/board/review/reviewModify";
 	}
 
-	// »óÇ°ÈÄ±â ¼öÁ¤ ¿Ï·á
+	// ï¿½ê¸½ï¿½ë­¹ï¿½ì‘æ¹²ï¿½ ï¿½ë‹”ï¿½ì ™ ï¿½ì…¿çŒ·ï¿½
 	@RequestMapping("reviewModifyComplete.do")
 	public String review_modifycomplete(Model model, BoardVO boardVo) {
 		System.out.println(boardVo);
@@ -165,7 +178,7 @@ public class BoardController {
 		return "redirect:/reviewList.do";
 	}
 
-	// »óÇ°ÈÄ±â ¾²±â ÆäÀÌÁö
+	// ï¿½ê¸½ï¿½ë­¹ï¿½ì‘æ¹²ï¿½ ï¿½ë²æ¹²ï¿½ ï¿½ëŸ¹ï¿½ì” ï§ï¿½
 	@RequestMapping("reviewWrite.do")
 	public String review_write(Model model, BoardVO boardVo, String productNo) {
 		BoardVO productDetail = boardServiceImpl.productDetail(productNo);
@@ -173,7 +186,7 @@ public class BoardController {
 		return "/board/review/reviewWrite";
 	}
 
-	// »óÇ°ÈÄ±â »èÁ¦
+	// ï¿½ê¸½ï¿½ë­¹ï¿½ì‘æ¹²ï¿½ ï¿½ê¶˜ï¿½ì £
 	@RequestMapping("reviewDelete.do")
 	public String review_delete(Model model, BoardVO boardVo) {
 		boardServiceImpl.deleteReview(boardVo);
@@ -188,10 +201,10 @@ public class BoardController {
 
 		if (!file.getOriginalFilename().isEmpty()) {
 			file.transferTo(new File(FILE_PATH, fileName));
-			model.addAttribute("msg", "ÆÄÀÏ¾÷·Îµå ¼º°ø");
+			model.addAttribute("msg", "ï¿½ë™†ï¿½ì”ªï¿½ë¾½æ¿¡ì’•ë±¶ ï¿½ê½¦æ€¨ï¿½");
 			model.addAttribute("fileName", fileName);
 		} else {
-			model.addAttribute("msg", "ÆÄÀÏÀ» ¼±ÅÃÇÏ¼¼¿ä...");
+			model.addAttribute("msg", "ï¿½ë™†ï¿½ì”ªï¿½ì“£ ï¿½ê½‘ï¿½ê¹®ï¿½ë¸¯ï¿½ê½­ï¿½ìŠ‚...");
 		}
 
 		return "/board/notice/noticeWrite";

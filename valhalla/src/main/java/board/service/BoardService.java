@@ -3,32 +3,35 @@ package board.service;
 import java.util.List;
 
 import board.vo.BoardVO;
+import common.Criteria;
 
 public interface BoardService {
-	public List<BoardVO> qnaList(BoardVO boardVo); // 1:1¹®ÀÇ °Ô½ÃÆÇ
+	public List<BoardVO> qnaList(BoardVO boardVo) throws Exception; // 1:1ë¬¸ì˜ ê²Œì‹œíŒ
 
-	public BoardVO qnaDetail(String qnaNo); // 1:1¹®ÀÇ »ó¼¼
+	public BoardVO qnaDetail(String qnaNo) throws Exception; // 1:1ë¬¸ì˜ ìƒì„¸
 
-	public List<BoardVO> noticeList(BoardVO boardVo); // °øÁö»çÇ×
+	public BoardVO noticeDetail(String noticeNo) throws Exception; // ê³µì§€ì‚¬í•­ ìƒì„¸
 
-	public BoardVO noticeDetail(String noticeNo); // °øÁö»çÇ× »ó¼¼
+	public void writeNotice(BoardVO boardVo) throws Exception; // ê³µì§€ì‚¬í•­ ì“°ê¸°
 
-	public void writeNotice(BoardVO boardVo); // °øÁö»çÇ× ¾²±â
+	public void updateNotice(BoardVO boardVo) throws Exception; // ê³µì§€ì‚¬í•­ ìˆ˜ì •
 
-	public void updateNotice(BoardVO boardVo); // °øÁö»çÇ× ¼öÁ¤
+	public void deleteNotice(BoardVO boardVo) throws Exception; // ê³µì§€ì‚¬í•­ ì‚­ì œ
+	
+	public List<BoardVO> review(BoardVO boardVo) throws Exception; // ìƒí’ˆí›„ê¸° ê²Œì‹œíŒ
 
-	public void deleteNotice(BoardVO boardVo); // °øÁö»çÇ× »èÁ¦
+	public BoardVO productDetail(String productNo) throws Exception; // ìƒí’ˆìƒì„¸í›„ê¸° - ìƒí’ˆì •ë³´
 
-	public List<BoardVO> review(BoardVO boardVo); // »óÇ°ÈÄ±â °Ô½ÃÆÇ
+	public BoardVO reviewDetail(String reviewNo) throws Exception; // ìƒí’ˆìƒì„¸í›„ê¸° - ë¦¬ë·°
 
-	public BoardVO productDetail(String productNo); // »óÇ°»ó¼¼ÈÄ±â - »óÇ°Á¤º¸
+	public void updateReview(BoardVO boardVo) throws Exception; // ìƒí’ˆìˆ˜ì •
 
-	public BoardVO reviewDetail(String reviewNo); // »óÇ°»ó¼¼ÈÄ±â - ¸®ºä
-
-	public void updateReview(BoardVO boardVo); // »óÇ°¼öÁ¤
-
-	public void writeReview(BoardVO boardVo); // »óÇ°¾²±â
-
-	public void deleteReview(BoardVO boardVo); // »óÇ°ÈÄ±â »èÁ¦
+	public void writeReview(BoardVO boardVo) throws Exception; // ìƒí’ˆì“°ê¸°
+	
+	public void deleteReview(BoardVO boardVo) throws Exception; // ìƒí’ˆí›„ê¸° ì‚­ì œ
+	
+	public List<BoardVO> noticeList(Criteria criteria) throws Exception; //í˜ì´ì§•ì²˜ë¦¬ ê³µì§€ì‚¬í•­ ë¦¬ìŠ¤íŠ¸
+	
+	public int listCount(BoardVO boardVo) throws Exception; //í˜ì´ì§•ì²˜ë¦¬ ê³µì§€ì‚¬í•­ ì´ ê°¯ìˆ˜ ì¹´ìš´íŒ…
 
 }

@@ -21,10 +21,23 @@
    </select>
    
    <!-- 공지사항 조회 -->
-   <select id="noticeList" parameterType="boardVo" resultType="boardVo">
-      SELECT ROWNUM , a.*
-      FROM notice a
-      ORDER BY ROWNUM DESC
+   <select id="noticeList" parameterType="common.Criteria" resultType="boardVo">
+		SELECT RNUM, NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, UDT_TIME, COUNT
+		  FROM ( 
+		        SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, UDT_TIME, COUNT, ROW_NUMBER() OVER(ORDER BY TO_NUMBER(NOTICE_NO) DESC) AS RNUM
+		         FROM NOTICE 
+		                       ) NOTI
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY TO_NUMBER(NOTICE_NO) DESC
+   </select>
+   
+   <!-- 페이징처리를 위한 데이터카운트 -->
+   <select id="listCnt" parameterType="boardVo" resultType="Integer">
+	<![CDATA[
+		SELECT COUNT(NOTICE_NO)
+		  FROM NOTICE
+		 WHERE NOTICE_NO > 0
+	]]>
    </select>
    
    <!-- 공지사항 상세 - -->
@@ -45,7 +58,7 @@
          udt_time,
          file_name
       ) VALUES(
-         (SELECT NVL(MAX(notice_no),0)+1 FROM notice),
+         (SELECT NVL(MAX(TO_NUMBER(NOTICE_NO)),0)+1 FROM NOTICE),
          #{noticeType},
          #{noticeTitle},
          #{noticeContent},
@@ -152,5 +165,10 @@
       DELETE FROM review
       WHERE review_no = #{reviewNo}
    </delete>
+   
+   <select id="boardListCnt" parameterType="boardVo" resultType="Integer">
+   	SELECT COUNT(*)
+   	  FROM NOTICE
+   </select>
    
 </mapper>
