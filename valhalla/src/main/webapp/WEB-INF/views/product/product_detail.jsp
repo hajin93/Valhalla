@@ -304,11 +304,12 @@
 <form id="movedCate" method="post" action="/productCategory.do">
 	<input type="hidden" id="productCategory" name="productCategory" value=""/>
 </form> 
-<input type="hidden" id="stockQuantity" name="stockQuantity" value="${proList.stockQuantity}"/>
-<input type="hidden" id="proPrice" name="proPrice" value="${proList.productPrice}"/>
+<input type="hidden" id="stockQuantity" name="stockQuantity" value="${proList.stockQuantity}"/> <!-- 재고 수량 -->
+<input type="hidden" id="proPrice" name="proPrice" value="${proList.productPrice}"/>  <!-- 가격 -->
 
-<form id="" method="post" action="">
-	
+<form id="movedOrder" method="post" action="/orderOrderform.do">
+	<input type="hidden" id="productNo" name="productNo" value=""/>
+	<input type="hidden" id="countnum" name="countnum" value=""/>
 </form>
 
 <%@ include file="../common/footer.jsp" %>
@@ -342,6 +343,18 @@ $( document ).ready(function() {
 		
 	});
 	
+	$('#actionBuy').on('click',function(){
+		
+		var proCount = $('#proCount').val(); //선택 갯수 
+
+		$('#productNo').val(productNo);
+		$('#countnum').val(proCount);
+		
+		$('#movedOrder').submit();
+	});
+	
+	//var a = calDate(); //현재날짜
+
 });
 
 //상품 선택 갯수 부분 

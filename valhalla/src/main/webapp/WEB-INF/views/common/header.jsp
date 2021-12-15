@@ -69,8 +69,7 @@ $(function(){
 	   gubn = localStorage.getItem('gubn');
    }
    
-   var top_noMaster = "<a href='/memberAgreement.do'>Join</a>"+
-	  				  "<a href='#none;' id='isLoginBtn'><span id='isLogin'>Login</span></a>"+
+   var top_noMaster = "<a href='#none;' id='isLoginBtn'><span id='isLogin'>Login</span></a>"+
 	  				  "<a href='/orderBasket.do'>Cart<span class='count displaynone EC-Layout_Basket-count-display'>"+
 	  				  "<span class='EC-Layout-Basket-count'>0</span></span></a>";
 	  				  
