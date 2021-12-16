@@ -20,5 +20,9 @@ public class OrderDAO {
 	public List<OrderVO> selectBoardList(OrderVO orderVo) {
 		return sqlSession.selectList("orderDAO.selectBoardList", orderVo);
 	}
+
+	public void put(OrderVO orderVo) {
+		sqlSession.selectList("orderDAO.put", orderVo);
+	}
 	
 }

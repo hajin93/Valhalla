@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="orderDAO">
+
+   <!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 orderVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. -->
+   
+   <!-- 카트안에 가지고 들어가는 정보 -->
+   <insert id="put" parameterType="orderVo">
+      INSERT INTO cart (
+      	cart_no,
+        quantity,
+        product_no
+      ) VALUES(
+         (SELECT NVL(MAX(TO_NUMBER(CART_NO)),0)+1 FROM CART),
+         #{quantity},
+         #{productNo}
+      )
+   </insert>
+   
+   
+</mapper>

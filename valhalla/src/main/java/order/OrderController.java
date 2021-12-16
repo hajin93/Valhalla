@@ -1,12 +1,19 @@
 package order;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import order.service.impl.OrderServiceImpl;
+import order.vo.OrderVO;
 
 
 @Controller
@@ -40,4 +47,13 @@ public class OrderController {
 
 	}
 	
+	@RequestMapping("cartPut.do")
+	 @ResponseBody
+	   public Map<String,Object> putAjax(OrderVO orderVo){
+		   Map<String,Object> map = new HashMap<String,Object>();
+		   
+		   OrderServiceImpl.setPut(orderVo);
+		     
+		   return map;
+	   }
 }

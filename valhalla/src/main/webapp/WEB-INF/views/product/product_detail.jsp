@@ -300,16 +300,34 @@
 		</div>
 	<hr class="layout">
 
+<input type="hidden" id="stockQuantity" name="stockQuantity" value="${proList.stockQuantity}"/> <!-- 재고 수량 -->
+<input type="hidden" id="proPrice" name="proPrice" value="${proList.productPrice}"/>  <!-- 가격 -->
+<input type="hidden" id="proNo" name="proNo" value="${proList.productNo}"/>
+<input type="hidden" id="proName" name="proName" value="${proList.productName}"/>
+<input type="hidden" id="proSize" name="proSize" value="${proList.productSize}"/>
+<input type="hidden" id="proCol" name="proCol" value="${proList.productColor}"/>
+<input type="hidden" id="proImg" name="proImg" value="${proList.mainImg}"/>
 <!-- 해더 jsp에서 사용한 카테고리 이동에서 변하지 않아서 다시 재사용 -->
 <form id="movedCate" method="post" action="/productCategory.do">
 	<input type="hidden" id="productCategory" name="productCategory" value=""/>
 </form> 
-<input type="hidden" id="stockQuantity" name="stockQuantity" value="${proList.stockQuantity}"/> <!-- 재고 수량 -->
-<input type="hidden" id="proPrice" name="proPrice" value="${proList.productPrice}"/>  <!-- 가격 -->
-
 <form id="movedOrder" method="post" action="/orderOrderform.do">
 	<input type="hidden" id="productNo" name="productNo" value=""/>
-	<input type="hidden" id="countnum" name="countnum" value=""/>
+	<input type="hidden" id="countnum" name="quantity" value=""/>
+</form>
+
+<form id="movedCart" method="post" action="/orderBasket.do">
+	<input type="hidden" id="productNoc" name="productNo" value=""/>
+	<input type="hidden" id="quantity" name="quantity" value=""/>
+</form>
+
+<form id="movedWish" method="post" action="/mypageWishlist.do">
+	<input type="hidden" id="productNow" name="productNo" value=""/>
+	<input type="hidden" id="productNamew" name="productName" value=""/>
+	<input type="hidden" id="productPricew" name="productPrice" value=""/>
+	<input type="hidden" id="productSizew" name="productSize" value=""/>
+	<input type="hidden" id="productColor" name="productNo" value=""/>
+	<input type="hidden" id="mainImgw" name="mainImg" value=""/>
 </form>
 
 <%@ include file="../common/footer.jsp" %>
@@ -343,17 +361,110 @@ $( document ).ready(function() {
 		
 	});
 	
+	//바로구매 클릭이벤트
 	$('#actionBuy').on('click',function(){
 		
 		var proCount = $('#proCount').val(); //선택 갯수 
 
 		$('#productNo').val(productNo);
-		$('#countnum').val(proCount);
+		$('#quantity').val(proCount);
 		
-		$('#movedOrder').submit();
+		$('#movedOrder').submit(); //바로 구매 클릭시 바로 주문 폼으로 넘어가게 만듦
 	});
 	
 	//var a = calDate(); //현재날짜
+	
+	
+	//장바구니 클릭이벤트
+	$('#actionCart').on('click',function(){
+		
+		var proCountc = $('#proCount').val(); //선택 갯수 
+		var productNo = $('#proNo').val();//상품코드
+		
+		$('#productNoc').val(productNo); //상품 번호
+		$('#quantity').val(proCountc); //상품 선택 갯수
+		
+		var result = confirm("장바구니에 선택한 상품이 담겼습니다. 장바구니로 이동하시겠습니까?"); //컨펌창 띄우기 및 구문
+		if(result){//컨펌창 확인 눌렀을 경우
+			 $.ajax({
+			    	type:"post",
+			    	url:"/cartPut.do",
+			    	data:{ quantity : proCountc, productNo : productNo },
+			    	dataType:"json",
+			    	success:function(data){
+			    		$('#movedCart').submit(); //확인을 눌렀을 경우 위에 변수들 폼으로 싸서 폼서브밋으로 넘겨주기
+			    	},
+			    	error:function(request, status, error){
+			    		
+	        		}
+			    });
+			
+		}else{// 컨펌창에서 취소 눌렀을 경우
+		    $.ajax({
+		    	type:"post",
+		    	url:"/cartPut.do",
+		    	data:{ quantity:quantity, productNo:productNoc },
+		    	dataType:"json",
+		    	success:function(data){
+		    		//페이지 넘어가는것이나 다른 기능 구현이 없으니까 비어있는 것 
+		    	},
+		    	error:function(request, status, error){
+		    		
+        		}
+		    });
+		}
+	});
+	
+	
+	//위시리스트 클릭이벤트
+	$('#').on('click',function(){
+		
+		
+		var productNo = $('#proNo').val();//상품코드
+		var productName = $('#proName').val(); //상품 이름
+		var productPrice= $('#proPrice').val(); //상품가격
+		var	productSize = $('#proSize').val(); //상품 사이즈
+		var productColor = $('#proCol').val(); //상품 컬러
+		var mainImg = $('#proImg').val(); //상품 이미지
+		
+		 $('#productNow').val(productNo);//상품 번호
+		 $('#productNamew').val(productName);
+		 $('#productPricew').val(productPrice);
+		 $('#productSizew').val(productSize);
+		 $('#productColorw').val(productColor);
+		 $('#mainImgw').val(mainImg);
+		 
+		
+		var result = confirm("위시리스트에 선택한 상품이 담겼습니다. 위시리스트로 이동하시겠습니까?"); //컨펌창 띄우기 및 구문
+		if(result){//컨펌창 확인 눌렀을 경우
+			 $.ajax({
+			    	type:"post",
+			    	url:"/wishPut.do",
+			    	data:{ productNo : productNow,  productName : productNamew, productPrice : productPricew, productSize : productSizew, productColor : productColorw, mainImg : mainImgw },
+			    	dataType:"json",
+			    	success:function(data){
+			    		$('#movedWish').submit(); //확인을 눌렀을 경우 위에 변수들 폼으로 싸서 폼서브밋으로 넘겨주기
+			    	},
+			    	error:function(request, status, error){
+			    		
+	        		}
+			    });
+			
+		}else{// 컨펌창에서 취소 눌렀을 경우
+		    $.ajax({
+		    	type:"post",
+		    	url:"/wishPut.do",
+		    	data:{ productNo : productNow,  productName : productNamew, productPrice : productPricew, productSize : productSizew, productColor : productColorw, mainImg : mainImgw },
+		    	dataType:"json",
+		    	success:function(data){
+		    		//페이지 넘어가는것이나 다른 기능 구현이 없으니까 비어있는 것 
+		    	},
+		    	error:function(request, status, error){
+		    		
+        		}
+		    });
+		}
+	});
 
 });
 

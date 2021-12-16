@@ -17,5 +17,6 @@
 		<typeAlias alias="boardVo" type="board.vo.BoardVO"/>
 		<typeAlias alias="productVo" type="product.vo.ProductVO"/>
 		<typeAlias alias="userVo" type="user.vo.UserVO"/>
+		<typeAlias alias="orderVo" type="order.vo.OrderVO"/>
 	</typeAliases>
 </configuration>

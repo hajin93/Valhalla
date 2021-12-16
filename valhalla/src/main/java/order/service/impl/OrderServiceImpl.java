@@ -21,4 +21,9 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.selectBoardList(orderVo);
 	}
 
+	@Override
+	public void setPut(OrderVO orderVo) {
+		orderDao.put(orderVo);
+	}
+
 }
