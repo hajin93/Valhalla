@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import common.MailHandler;
 import common.SHA256;
+import order.vo.OrderVO;
 import user.service.impl.UserServiceImpl;
 import user.vo.UserVO;
 
@@ -252,11 +253,6 @@ public class UserController {
 
 	}
 	
-	@RequestMapping("mypageWishlist.do")
-	public String wish_list(){
-	return "/mypage/mypage_wish_list"; 
-
-	}
 	
 	@RequestMapping("orderList.do")
 	public String mypage_orderlist(){

@@ -133,6 +133,7 @@ $(function(){
 					
 					//세션 올려두기
 					localStorage.setItem("userId", data.list.userId);
+					localStorage.setItem("userNo", data.list.userNo);
 					localStorage.setItem("userName", data.list.userName);
 					localStorage.setItem("phone", data.list.phone);
 					localStorage.setItem("email", data.list.email);

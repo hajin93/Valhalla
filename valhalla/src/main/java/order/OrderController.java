@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,8 +28,16 @@ public class OrderController {
 	
 	
 	@RequestMapping("orderBasket.do")
-	public String order_basket(){
-		logger.debug("log찍기 example~ 처음써보는거니 구글링~");
+	public String order_basket(OrderVO orderVo, Model model){
+			
+			System.out.println("qweqwe_____" + orderVo);	
+			
+			List<OrderVO> list = new ArrayList<OrderVO>();
+			
+		    list = OrderServiceImpl.getuserbasketList(orderVo);
+		    model.addAttribute("list", list);	
+		
+		
 		return "/order/order_basket";
 
 	}
@@ -53,7 +62,35 @@ public class OrderController {
 		   Map<String,Object> map = new HashMap<String,Object>();
 		   
 		   OrderServiceImpl.setPut(orderVo);
-		     
+		   map.put("userNo", orderVo.getUserNo());
+		   
 		   return map;
 	   }
+	
+	@RequestMapping("mypageWishlist.do")
+	public String wish_list(OrderVO orderVo, Model model){
+		
+		System.out.println("qweqwe_____" + orderVo);	
+		
+		List<OrderVO> list = new ArrayList<OrderVO>();
+		
+	    list = OrderServiceImpl.getuserwishList(orderVo);
+	    model.addAttribute("list", list);
+	    
+		
+		return "/mypage/mypage_wish_list"; 
+	}
+	
+	
+	//위시리스트 ajax 작성자 하진
+	@RequestMapping("wishPut.do")
+	@ResponseBody
+	public Map<String,Object> wishputAjax(OrderVO orderVo){
+		Map<String,Object> map = new HashMap<String,Object>();
+			   
+		OrderServiceImpl.setwishPut(orderVo);
+		map.put("userNo", orderVo.getUserNo());
+			     
+		return map;
+	}
 }

@@ -59,5 +59,6 @@ public class OrderVO {
 	 * String rgstTime;
 	 */	
 	private String stockQuantity;
-	private String productEx;		
+	private String productEx;
+			
 }

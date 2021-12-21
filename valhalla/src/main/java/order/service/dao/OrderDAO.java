@@ -17,12 +17,22 @@ public class OrderDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<OrderVO> selectBoardList(OrderVO orderVo) {
-		return sqlSession.selectList("orderDAO.selectBoardList", orderVo);
-	}
 
 	public void put(OrderVO orderVo) {
 		sqlSession.selectList("orderDAO.put", orderVo);
+	}
+
+	public void wishput(OrderVO orderVo) {
+		sqlSession.selectList("orderDAO.wishput", orderVo);
+		
+	}
+
+	public List<OrderVO> userwishList(OrderVO orderVo) {
+		return sqlSession.selectList("orderDAO.wishList", orderVo);
+	}
+
+	public List<OrderVO> userbasketList(OrderVO orderVo) {
+		return sqlSession.selectList("orderDAO.basketList", orderVo);
 	}
 	
 }

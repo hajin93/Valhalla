@@ -10,14 +10,61 @@
    <insert id="put" parameterType="orderVo">
       INSERT INTO cart (
       	cart_no,
+        product_no,
+        product_name,
+        product_price,
+        product_size,
+        product_color,
+        main_img,
         quantity,
-        product_no
+        total_price,
+        user_no
       ) VALUES(
          (SELECT NVL(MAX(TO_NUMBER(CART_NO)),0)+1 FROM CART),
+         #{productNo},
+         #{productName},
+         #{productPrice},
+         #{productSize},
+         #{productColor},
+         #{mainImg},
          #{quantity},
-         #{productNo}
+         #{totalPrice},
+         #{userNo}
       )
    </insert>
    
+    <insert id="wishput" parameterType="orderVo">
+      INSERT INTO WISHLIST (
+      	wish_no,
+      	user_no,
+        product_no,
+        product_name,
+        product_price,
+        product_size,
+        product_color,
+        main_img 
+      ) VALUES(
+         (SELECT NVL(MAX(TO_NUMBER(WISH_NO)),0)+1 FROM wishlist),
+         #{userNo},
+         #{productNo},
+         #{productName},
+         #{productPrice},
+         #{productSize},
+         #{productColor},
+         #{mainImg}  
+      )
+   </insert>
+   
+   <select id="wishList" parameterType="orderVo" resultType="orderVo">
+   SELECT * FROM WISHLIST
+   WHERE USER_NO = #{userNo}
+   </select>
+   
+   <select id="basketList" parameterType="orderVo" resultType="orderVo">
+   SELECT B.*, A.STOCKQUANTITY 
+     FROM PRODUCT A, CART B
+    WHERE A.PRODUCT_NO = B.PRODUCT_NO
+      AND USER_NO = #{userNo}
+   </select>
    
 </mapper>
