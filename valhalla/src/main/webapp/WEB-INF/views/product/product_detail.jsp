@@ -165,8 +165,8 @@
 							</div>
 							<div id="" class="xans-element- xans-product xans-product-action productAction">
 								<div class=" ">
-									<a href="#none" class="btnSubmit gFull sizeL ">
-										<span id="actionBuy">바로구매</span>
+									<a href="javascript:void(0);" class="btnSubmit gFull sizeL " id="actionBuy">
+										<span>바로구매</span>
 									</a> 
 									<span class="gActionButtonColumn">
 									<button type="button" class="btnNormal sizeL RW actionCart" id="actionCart">장바구니</button>
@@ -313,7 +313,7 @@
 <form id="movedCate" method="post" action="/productCategory.do">
 	<input type="hidden" id="productCategory" name="productCategory" value=""/>
 </form> 
-<form id="movedOrder" method="post" action="/orderOrderform.do">
+<form id="movedOrder" method="post" action="/orderForm.do">
 	<input type="hidden" id="productNo" name="productNo" value=""/>
 	<input type="hidden" id="countnum" name="quantity" value=""/>
 </form>
@@ -357,11 +357,11 @@ $( document ).ready(function() {
 	});
 	
 	//바로구매 클릭이벤트
-	$('#actionBuy').on('click',function(){
+	$('#actionBuy').on('click', function(){
 		
 		var proCount = $('#proCount').val(); //선택 갯수 
 
-		$('#productNo').val(productNo);
+		$('#productNo').val($('#proNo').val());
 		$('#countnum').val(proCount);
 		
 		$('#movedOrder').submit(); //바로 구매 클릭시 바로 주문 폼으로 넘어가게 만듦

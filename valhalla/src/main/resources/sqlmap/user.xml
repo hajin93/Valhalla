@@ -75,4 +75,22 @@
 		  FROM USERS
 		 WHERE USER_ID = #{userId}
 	</select>
+	
+	<select id="userPwCompare" parameterType="userVo" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM USERS
+		 WHERE USER_PW = #{userPw}
+		   AND USER_ID = #{userId}
+	</select>
+	
+	<delete id="deleteInfo" parameterType="userVo">
+		DELETE FROM USERS WHERE USER_ID = #{userId}
+	</delete>
+	
+	<select id="orderList" parameterType="orderVo" resultType="orderVo">
+		SELECT *
+		  FROM ORDERS
+		 WHERE USER_NO = #{userNo}
+	</select>
+	
 </mapper>

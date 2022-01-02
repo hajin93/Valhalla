@@ -121,16 +121,49 @@ public class UserController {
 		return map;
 	}
 	
-	@RequestMapping("memberModify.do")
-	public String member_modify(){
-		logger.debug("log찍기 example~ 처음써보는거니 구글링~");
-		return "/member/member_modify"; 
-
+	//회원정보수정 전 비밀번호 체크
+	@RequestMapping("memberModifyPwChk.do")
+	public String memberModifyPwChk(UserVO userVo, Model model) {
+		return "/member/member_modify_pwChk";
 	}
 	
+	//회원정보수정
+	@RequestMapping("memberModify.do")
+	public String member_modify(Model model , UserVO userVo){
+		
+		List<UserVO> list = userServiceImpl.getUserInfoSession(userVo);
+		
+		model.addAttribute("list", list.get(0));
+		
+		return "/member/member_modify"; 
+	}
+	
+	//회원정보 비밀번호 매칭
+	@RequestMapping("userPwCompare.do")
+	@ResponseBody
+	public Map<String,Object> userPwCompare(UserVO userVo){
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		try {
+			SHA256 sha = new SHA256();			
+			String pw = userVo.getUserPw();
+			pw = sha.encrypt(pw);
+			userVo.setUserPw(pw);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		
+		int chkNum = userServiceImpl.getUserPwCompare(userVo);
+		
+		map.put("chkNum", chkNum);
+		
+		return map;
+	}
+	
+	//약관동의
 	@RequestMapping("memberAgreement.do")
 	public String member_agreement(){
-		logger.debug("log찍기 example~ 처음써보는거니 구글링~");
 		return "/member/member_agreement"; 
 	}
 	
@@ -149,7 +182,7 @@ public class UserController {
 		
 		try {
 			
-			SHA256 sha = new SHA256();//복호화 원하면 aes256사용해야함
+			SHA256 sha = new SHA256();
 			String pw = userVo.getUserPw();
 			pw = sha.encrypt(pw);
 			userVo.setUserPw(pw);
@@ -207,6 +240,7 @@ public class UserController {
 
 	}
 	
+	//비밀번호 변경
 	@RequestMapping("updatePw.do")
 	@ResponseBody
 	public Map<String,Object> updatePw(UserVO userVo){
@@ -230,88 +264,93 @@ public class UserController {
 		return map;
 	}
 	
+	//회원탈퇴
+	@RequestMapping("deleteInfo.do")
+	@ResponseBody
+	public Map<String,Object> deleteInfo(UserVO userVo){
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		userServiceImpl.deleteInfo(userVo);
+		
+		map.put("exit", "exit");
+		
+		return map;
+	}
+	
 	////////////////shopInfo////////////
 	
 	@RequestMapping("shopInfoGuide.do")
 	public String shopInfo_guide(){
-		logger.debug("log찍기 example~ 처음써보는거니 구글링~");
 		return "/shopInfo/shopInfo_guide";
-
 	}
 	
 	//////////////////mypage/////////////
 	
+	//마이페이지 주문내역
 	@RequestMapping("mypageOrderIndex.do")
-	public String mypage_orderindex(){
-	return "/mypage/mypage_orderindex"; 
+	public String mypage_orderindex(OrderVO orderVo, Model model){
+		
+		List<OrderVO> list = userServiceImpl.getOrderList(orderVo);
+		
+		model.addAttribute("list" , list);
+		
+		return "/mypage/mypage_orderindex"; 
 
 	}
 	
 	@RequestMapping("mypageBoard.do")
 	public String mypage_board(){
-	return "/mypage/mypage_board";
-
+		return "/mypage/mypage_board";
 	}
-	
 	
 	@RequestMapping("orderList.do")
 	public String mypage_orderlist(){
-	return "/mypage/order/mypage_order_orderlist"; 
-
+		return "/mypage/order/mypage_order_orderlist"; 
 	}
 	
 	@RequestMapping("orderReturn.do")
 	public String mypage_return(){
-	return "/mypage/order/mypage_order_return"; 
-
+		return "/mypage/order/mypage_order_return"; 
 	}
 	
 	@RequestMapping("orderExchange.do")
 	public String mypage_exchange(){
-	return "/mypage/order/mypage_order_exchange"; 
-
+		return "/mypage/order/mypage_order_exchange"; 
 	}
 	
 	@RequestMapping("orderCancel.do")
 	public String mypage_cancel(){
-	return "/myshop/order/mypage_order_cancel"; 
-
+		return "/myshop/order/mypage_order_cancel"; 
 	}
 	
 	@RequestMapping("orderDetailOld.do")
 	public String mypage_detail_old(){
-	return "/mypage/order/mypage_order_detail_old"; 
-                            
+		return "/mypage/order/mypage_order_detail_old"; 
 	}
 	
 	@RequestMapping("orderDetail.do")
 	public String mypage_detail(){
-	return "/mypage/order/mypage_order_detail";
-
+		return "/mypage/order/mypage_order_detail";
 	}
 	
 	@RequestMapping("addrList.do")
 	public String mypage_list(){
-	return "/mypage/addr/mypage_addr_list";
-
+		return "/mypage/addr/mypage_addr_list";
 	}
 	
 	@RequestMapping("mypageAddrModify.do")
 	public String mypage_addr_modify(){
-	return "/mypage/addr/mypage_addr_modify"; 
-	
+		return "/mypage/addr/mypage_addr_modify"; 
 	}
 	
 	@RequestMapping("mypageAddrRegister.do")
 	public String mypage_addr_registery(){
-	return "/mypage/addr/mypage_addr_registery"; 
-	
+		return "/mypage/addr/mypage_addr_registery"; 
 	}
 	
 	@RequestMapping("adminOrder.do")
 	public String mypage_order_adminorder(){
-	return "/mypage/addr/mypage_order_adminorder"; 
-	
+		return "/mypage/addr/mypage_order_adminorder"; 
 	}
 	
 	

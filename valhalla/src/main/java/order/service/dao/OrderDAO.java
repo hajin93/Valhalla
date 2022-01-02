@@ -26,6 +26,25 @@ public class OrderDAO {
 		sqlSession.selectList("orderDAO.wishput", orderVo);
 		
 	}
+	public void setorderPut(OrderVO orderVo) {
+		sqlSession.selectList("orderDAO.setorderPut", orderVo);
+	}
+
+	public void setcartPut(OrderVO orderVo) {
+		sqlSession.selectList("orderDAO.setcartPut", orderVo);
+	}
+	
+	public List<OrderVO> getProductList(OrderVO orderVo) {
+		return sqlSession.selectList("orderDAO.getProductList", orderVo);
+	}
+
+	public String getOrderNo(OrderVO orderVo) {
+		return sqlSession.selectOne("orderDAO.getOrderNo", orderVo);
+	}
+	
+	public String getOrderPrice(OrderVO orderVo) {
+		return sqlSession.selectOne("orderDAO.getOrderPrice", orderVo);
+	}
 
 	public List<OrderVO> userwishList(OrderVO orderVo) {
 		return sqlSession.selectList("orderDAO.wishList", orderVo);

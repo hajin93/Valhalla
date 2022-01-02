@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import order.vo.OrderVO;
 import user.vo.UserVO;
 
 
@@ -44,6 +45,19 @@ public class UserDAO {
 
 	public List<UserVO> userInfoSession(UserVO userVo) {
 		return sqlSession.selectList("userDAO.userInfoSession", userVo);
+	}
+
+	public int userPwCompare(UserVO userVo) {
+		return sqlSession.selectOne("userDAO.userPwCompare", userVo);
+	}
+
+	public void deleteInfo(UserVO userVo) {
+		sqlSession.delete("userDAO.deleteInfo", userVo);
+		
+	}
+	
+	public List<OrderVO> getOrderList(OrderVO orderVo) {
+		return sqlSession.selectList("userDAO.orderList", orderVo);
 	}
 	
 }

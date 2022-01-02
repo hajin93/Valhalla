@@ -6,6 +6,89 @@
 
    <!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 orderVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. -->
    
+   <!-- 주문안에 가지고 들어가는 정보 -->
+	<insert id="setorderPut" parameterType="orderVo">
+		INSERT INTO orders (
+			order_no,
+			order_price,
+			order_time,
+			user_no,
+			receiver,
+			zipcode,
+			address,
+			detailed_address,
+			phone,
+			product_no,
+			main_img,
+			product_name,
+			product_size,
+			product_color,
+			product_price,
+			quantity
+		) VALUES(
+			(SELECT NVL(MAX(TO_NUMBER(ORDER_NO)),0)+1 FROM ORDERS),
+			#{orderPrice},
+			#{orderTime},
+			#{userNo},
+			#{receiver},
+			#{zipcode},
+			#{address},
+			#{detailedAddress},
+			#{phone},
+			#{productNo},
+			#{mainImg},
+			#{productName},
+			#{productSize},
+			#{productColor},
+			#{productPrice},
+			#{quantity}
+		)
+	</insert>
+	
+	<select id="getProductList" parameterType="orderVo" resultType="orderVo">
+		SELECT * FROM product
+		WHERE product_no = #{productNo}
+	</select>
+	
+	<select id="getOrderNo" parameterType="orderVo" resultType="String">
+		SELECT MAX(TO_NUMBER(ORDER_NO))
+		  FROM ORDERS
+	</select>
+	
+	<select id="getOrderPrice" parameterType="orderVo" resultType="String">
+		SELECT ORDER_PRICE 
+		FROM ORDERS 
+		WHERE order_no = (SELECT max(TO_NUMBER(order_no)) FROM ORDERS)
+	</select>
+
+	<!-- 카트안에 가지고 들어가는 정보 -->
+	<insert id="setcartPut" parameterType="orderVo">
+		INSERT INTO cart (
+			cart_no,
+			product_no,
+			product_name,
+			product_price,
+			product_size,
+			product_color,
+			main_img,
+			quantity,
+			total_price,
+			user_no
+		) VALUES(
+			(SELECT NVL(MAX(TO_NUMBER(CART_NO)),0)+1 FROM CART),
+			#{productNo},
+			#{productName},
+			#{productPrice},
+			#{productSize},
+			#{productColor},
+			#{mainImg},
+			#{quantity},
+			#{totalPrice},
+			#{userNo}
+		)
+	</insert>
+   
+   
    <!-- 카트안에 가지고 들어가는 정보 -->
    <insert id="put" parameterType="orderVo">
       INSERT INTO cart (
@@ -61,10 +144,9 @@
    </select>
    
    <select id="basketList" parameterType="orderVo" resultType="orderVo">
-   SELECT B.*, A.STOCKQUANTITY 
+   SELECT B.*, A.STOCK_QUANTITY
      FROM PRODUCT A, CART B
     WHERE A.PRODUCT_NO = B.PRODUCT_NO
       AND USER_NO = #{userNo}
    </select>
-   
 </mapper>

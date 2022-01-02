@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import order.vo.OrderVO;
 import user.service.UserService;
 import user.service.dao.UserDAO;
 import user.vo.UserVO;
@@ -50,6 +51,22 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserVO> getUserInfoSession(UserVO userVo) {
 		return userDao.userInfoSession(userVo);
+	}
+
+	@Override
+	public int getUserPwCompare(UserVO userVo) {
+		return userDao.userPwCompare(userVo);
+	}
+	
+	@Override
+	public void deleteInfo(UserVO userVo) {
+		userDao.deleteInfo(userVo);
+		
+	}
+	
+	@Override
+	public List<OrderVO> getOrderList(OrderVO orderVo) {
+		return userDao.getOrderList(orderVo);
 	}
 
 }

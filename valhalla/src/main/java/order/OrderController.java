@@ -42,17 +42,40 @@ public class OrderController {
 
 	}
 	
-	@RequestMapping("orderOrderform.do")
-	public String order_orderform(){
-		logger.debug("log찍기 example~ 처음써보는거니 구글링~");
-		return "/order/order_orderform"; 
+	@RequestMapping("orderForm.do")
+	public String orderForm(Model model, OrderVO orderVo) {
+		List<OrderVO> productList = OrderServiceImpl.getProductList(orderVo);
+		model.addAttribute("productList", productList); // 주문상품정보
+		model.addAttribute("orderQuantity", orderVo.getQuantity()); // 주문수량
+		model.addAttribute("orderPrice", orderVo.getTotalPrice()); // 결제정보
+
+		return "/order/orderForm";
 
 	}
 	
-	@RequestMapping("orderOrderResult.do")
-	public String order_order_result(){
-		logger.debug("log찍기 example~ 처음써보는거니 구글링~");
-		return "/order/order_order_result"; 
+	@RequestMapping("orderPut.do")
+	@ResponseBody
+	public Map<String, Object> orderputAjax(OrderVO orderVo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("productNo", orderVo.getProductNo());
+		map.put("quantity", orderVo.getQuantity());
+		map.put("totalPrice", orderVo.getTotalPrice());
+
+		return map;
+	}
+	
+	@RequestMapping("orderResult.do")
+	public String orderResult(Model model, OrderVO orderVo) throws Exception {
+		OrderServiceImpl.setorderPut(orderVo);
+		
+		String orderNo = OrderServiceImpl.getOrderNo(orderVo);
+		String orderPrice = OrderServiceImpl.getOrderPrice(orderVo);
+		orderVo.setOrderNo(orderNo);
+		orderVo.setOrderPrice(orderPrice);
+		System.out.println(orderPrice);
+		model.addAttribute("orderNo", orderNo);
+		model.addAttribute("orderPrice", orderPrice);
+		return "/order/orderResult";
 
 	}
 	
