@@ -30,6 +30,11 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductVO> getProductNo(ProductVO productVo) {
 		return productDao.productNo(productVo);
 	}
+
+	@Override
+	public List<ProductVO> getProductSeason(ProductVO productVo) {
+		return productDao.ProductSeason(productVo);
+	}
 	
 
 	

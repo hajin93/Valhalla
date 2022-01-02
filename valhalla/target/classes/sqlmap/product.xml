@@ -36,4 +36,18 @@
 		  FROM PRODUCT
 		 WHERE PRODUCT_No = #{productNo}
 	</select>
+	<select id="ProductSeason" parameterType="productVo" resultType="productVo">
+		SELECT *
+		  FROM PRODUCT
+		 WHERE 1=1 
+		 <if test="productSeason != ''">
+		 	AND PRODUCT_SEASON = #{productSeason}
+		 </if>
+		 <if test="priceSel == 'low'" >
+		 ORDER BY PRODUCT_PRICE ASC
+		 </if>
+		 <if test="priceSel == 'hi'" >
+		 ORDER BY PRODUCT_PRICE DESC
+		 </if>
+	</select>
 </mapper>

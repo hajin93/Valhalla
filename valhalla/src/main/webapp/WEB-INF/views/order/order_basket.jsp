@@ -85,7 +85,7 @@
 													<div class="quantity">
 														<div class="">
 															<span class="ec-base-qty"> 
-																<input id="qt" name="qt" size="2" value="1" type="text"> 
+																<input id="qt${status.index }" name="qt" size="2" value="1" type="text"> 
 																<a href="javascript:void(0);" class="up" onclick="plus('${status.index}');">수량증가</a>
 																<a href="javascript:void(0);" class="down" onclick="minus('${status.index}');">수량감소</a>
 															</span> 
@@ -286,7 +286,7 @@ $(function(){
 var plus = function(idx){
 	//var stockQuantity = document.getElementById('stockQuantity'+idx).value;
 	var stockQuantity = $('#stockQuantity'+idx).val();
-	var su = parseInt($('#qt').val());
+	var su = parseInt($('#qt'+idx).val());
 	su = su + 1;
 	if(su > stockQuantity){
 		su = stockQuantity;
@@ -297,7 +297,7 @@ var plus = function(idx){
 }
 
 var minus = function(idx){
-	var su = parseInt($('#qt').val());
+	var su = parseInt($('#qt'+idx).val());
 	su = su - 1;
 	if(su < 1){
 		su = 1;

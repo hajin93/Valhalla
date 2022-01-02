@@ -28,5 +28,9 @@ public class ProductDAO {
 	public List<ProductVO> productNo(ProductVO productVo) {
 		return sqlSession.selectList("productDAO.productNo", productVo);
 	}
+
+	public List<ProductVO> ProductSeason(ProductVO productVo) {
+		return sqlSession.selectList("productDAO.ProductSeason", productVo);
+	}
 	
 }

@@ -13,15 +13,15 @@
 				<!-- collection -->
 				<section class="collection">
 					<div class="xans-element- xans-custom xans-custom-moduleedit-2 xans-custom-moduleedit xans-custom-2 collection-item ">
-						<a href="/product/list.html?cate_no=24">
+						<a href="#none;" id="summer">
 							<img src="${pageContext.request.contextPath}/resources/img/collection/summercollection.png" width="100%" height="100%" alt="banner1"> &nbsp;</a>
 					</div>
 					<div class="xans-element- xans-custom xans-custom-moduleedit-3 xans-custom-moduleedit xans-custom-3 collection-item ">
-						<a href="/product/list.html?cate_no=24">
+						<a href="#none;" id="winter">
 							<img src="${pageContext.request.contextPath}/resources/img/collection/wintercollection.png" width="100%" height="100%" alt="banner2"> &nbsp;</a>
 					</div>
 					<div class="xans-element- xans-custom xans-custom-moduleedit-4 xans-custom-moduleedit xans-custom-4 collection-item ">
-						<a href="/product/list.html?cate_no=24"> 
+						<a href="#none;" id="ac"> 
 							<img src="${pageContext.request.contextPath}/resources/img/collection/acccollection.PNG" width="100%" height="100%" alt="banner3"> &nbsp;</a>
 					</div>
 				</section>
@@ -78,9 +78,30 @@
 <form id="movedPD" method="post" action="/productDetail.do">
 	<input type="hidden" id="productNo" name="productNo" val=""/>
 </form>
+<form id="movedColl" method="post" action="/collection.do">
+   <input type="hidden" id="productSeason" name="productSeason" value=""/>
+   <input type="hidden" id="collec" name="collec" value="collec"/>
+</form>
 </body>
-
 <script type="text/javascript">
+$(function(){
+	
+	$('#summer').on('click',function(){ //썸머 컬렉션 클릭시 인풋히든 값으로 s 를 productSeason안으로 넣어서 폼서브밋시킴
+		$('#productSeason').val('s');
+		$('#movedColl').submit();
+	});
+	
+	$('#winter').on('click',function(){ // 윈터 컬렉션 클릭시 인풋히든 값으로 w 를 productSeason안으로 넣어서 폼서브밋시킴
+		$('#productSeason').val('w');
+		$('#movedColl').submit();
+	});
+	
+	$('#ac').on('click',function(){ // 악세사리 컬렉션 클릭시 인풋히든 값으로 a 를 productSeason안으로 넣어서 폼서브밋시킴
+		$('#productSeason').val('a');
+		$('#movedColl').submit();
+	});
+});
+
 function movePD(productNo){
 	$('#productNo').val(productNo);
 	$('#movedPD').submit();

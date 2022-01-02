@@ -24,7 +24,6 @@
 						</ol>
 					</div>
 				</div>
-
 				<div class="xans-element- xans-product xans-product-headcategory titleArea ">
 					<h2>${productCategory}</h2>
 				</div>
@@ -100,6 +99,8 @@
 <form id="movedPD" method="post" action="/productDetail.do"> 
 	<input type="hidden" id="productNo" name="productNo" val=""/>
 </form>
+ <input type="hidden" id="productSeason" name="productSeason" value="${productSeason}"/>
+ <input type="hidden" id="collec" name="collec" value="${collec}"/>
 <%@ include file="../common/footer.jsp" %>
 </body>
 <script type="text/javascript">
@@ -117,97 +118,194 @@ function movePD(productNo){ //상품이미지와 상품이름을 선택했을때
 function priceChange(){
 	var selected = $("#selArray option:selected").val();// 정렬 안쪽 선택된 옵션마다 ajax를 태우려고 가지고왔음
 	var productCategory =$('#category').val();
+	var productSeason = $('#productSeason').val();
 	var productList = "";
+	var collec = document.getElementById('collec').value;
 	
-	if(selected == "low"){
+	if(collec == ""){
 		
-		$.ajax({
-			type:'post',
-			url: '/productCategoryAjax.do', //컨트롤러 안쪽 productCategory.do은 map형식으로 리턴하지 않아 따로 ajax.do로 만들어놨음
-			data: { priceSel : selected,  productCategory : productCategory}, //선택된 것(hi인지 low인지), 컨트롤러에서 카테고리로 불러오는 xml 건들지 않고 바로 가져다 쓰기 위한것과 어떤 카테고리를 선택했는지 알아야해서 두가지를 가지고 ajax 사용
-			dataType:"json",
-			success: function(data) {
-				var list = data.list;
-				var length = list.length; //size를 먼저 끌고 오려고 했지만 length 와 같아 그냥 length 선언후에 사용함 
-				
-				for(var i=0; i<length; i++){
-					productList = productList +
-					"<li id='anchorBoxId_21' class='xans-record-'>"+
-					"<div class='prdList__item'>"+
-					"<div class='thumbnail'>"+
-					"<a href='#none;' id='img"+i+"' onclick="+"'movePD"+"('"+ list[i].productNo +"')"+"'>"+
-					"<img src='${pageContext.request.contextPath}/resources/img/product"+ list[i].mainImg +"' >"+
-					"</a></div><div class='description'>"+
-					"<strong class='name'>"+
-					"<a href='#none;' id='proName"+i+"' onclick='movePD"+"('"+ list[i].productNo +"')"+"' class=''>"+
-					"<span class='title displaynone'>"+
-					"<span style='font-size: 13px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_NAME'>상품명</span> :</span>"+
-					"<span style='font-size: 13px; color: #000000;'>"+ list[i].productName +"</span>"+
-					"</a></strong><ul class='xans-element- xans-product xans-product-listitem spec'>"+
-					"<li class='xans-record-'>"+
-					"<strong class='title displaynone'>"+
-					"<span style='font-size: 12px; color: #6d6d6d;' data-i18n='PRODUCT.PRD_INFO_SUMMARY_DESC'>상품요약정보</span> :</strong>"+
-					"<span style='font-size: 12px; color: #6d6d6d;'>"+ list[i].productEx +"</span>"+
-					"</li><li class='xans-record-'>"+
-					"<strong class='title displaynone'>"+
-					"<span style='font-size: 16px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_PRICE'>판매가</span> :</strong>"+
-					"<span style='font-size: 16px; color: #000000;'>"+ comma(list[i].productPrice) +"원</span>"+
-					"<span id='span_product_tax_type_text' style=''> </span>"+
-					"</li></ul></div></div></li>"
-				}
-				
-				$('#proList').html(""); //위에서 기본 조건틀이 존재하므로 ul태그 안쪽을 비워주는 것
-				$('#proList').html(productList); // ul태그 안쪽을 for문으로 갈아치는 거 
-			},
-			error: function(request, status, error) {
-				alert(error);
-			}
-		});
-	} else if(selected == "hi"){
-		
-		$.ajax({
-			type:'post',
-			url: '/productCategoryAjax.do', //컨트롤러 안쪽 productCategory.do은 map형식으로 리턴하지 않아 따로 ajax.do로 만들어놨음
-			data: { priceSel : selected,  productCategory : productCategory}, //선택된 것(hi인지 low인지), 컨트롤러에서 카테고리로 불러오는 xml 건들지 않고 바로 가져다 쓰기 위한것과 어떤 카테고리를 선택했는지 알아야해서 두가지를 가지고 ajax 사용
-			dataType:"json",
-			success: function(data) {
-				var list = data.list;
-				var length = list.length; //size를 먼저 끌고 오려고 했지만 length 와 같아 그냥 length 선언후에 사용함 
+		if(selected == "low"){
 			
-				for(var i=0; i<length; i++){ 
-					productList = productList +
-					"<li id='anchorBoxId_21' class='xans-record-'>"+
-					"<div class='prdList__item'>"+
-					"<div class='thumbnail'>"+
-					"<a href='#none;' id='img"+i+"' onclick="+"'movePD"+"('"+ list[i].productNo +"')"+"'>"+
-					"<img src='${pageContext.request.contextPath}/resources/img/product"+ list[i].mainImg +"' >"+
-					"</a></div><div class='description'>"+
-					"<strong class='name'>"+
-					"<a href='#none;' id='proName"+i+"' onclick='movePD"+"('"+ list[i].productNo +"')"+"' class=''>"+
-					"<span class='title displaynone'>"+
-					"<span style='font-size: 13px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_NAME'>상품명</span> :</span>"+
-					"<span style='font-size: 13px; color: #000000;'>"+ list[i].productName +"</span>"+
-					"</a></strong><ul class='xans-element- xans-product xans-product-listitem spec'>"+
-					"<li class='xans-record-'>"+
-					"<strong class='title displaynone'>"+
-					"<span style='font-size: 12px; color: #6d6d6d;' data-i18n='PRODUCT.PRD_INFO_SUMMARY_DESC'>상품요약정보</span> :</strong>"+
-					"<span style='font-size: 12px; color: #6d6d6d;'>"+ list[i].productEx +"</span>"+
-					"</li><li class='xans-record-'>"+
-					"<strong class='title displaynone'>"+
-					"<span style='font-size: 16px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_PRICE'>판매가</span> :</strong>"+
-					"<span style='font-size: 16px; color: #000000;'>"+ comma(list[i].productPrice) +"원</span>"+
-					"<span id='span_product_tax_type_text' style=''> </span>"+
-					"</li></ul></div></div></li>"
+			$.ajax({
+				type:'post',
+				url: '/productCategoryAjax.do', //컨트롤러 안쪽 productCategory.do은 map형식으로 리턴하지 않아 따로 ajax.do로 만들어놨음
+				data: { priceSel : selected,  productCategory : productCategory}, //선택된 것(hi인지 low인지), 컨트롤러에서 카테고리로 불러오는 xml 건들지 않고 바로 가져다 쓰기 위한것과 어떤 카테고리를 선택했는지 알아야해서 두가지를 가지고 ajax 사용
+				dataType:"json",
+				success: function(data) {
+					var list = data.list;
+					var length = list.length; //size를 먼저 끌고 오려고 했지만 length 와 같아 그냥 length 선언후에 사용함 
+					
+					for(var i=0; i<length; i++){
+						productList = productList +
+						"<li id='anchorBoxId_21' class='xans-record-'>"+
+						"<div class='prdList__item'>"+
+						"<div class='thumbnail'>"+
+						"<a href='#none;' id='img"+i+"' onclick="+"'movePD"+"('"+ list[i].productNo +"')"+"'>"+
+						"<img src='${pageContext.request.contextPath}/resources/img/product"+ list[i].mainImg +"' >"+
+						"</a></div><div class='description'>"+
+						"<strong class='name'>"+
+						"<a href='#none;' id='proName"+i+"' onclick='movePD"+"('"+ list[i].productNo +"')"+"' class=''>"+
+						"<span class='title displaynone'>"+
+						"<span style='font-size: 13px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_NAME'>상품명</span> :</span>"+
+						"<span style='font-size: 13px; color: #000000;'>"+ list[i].productName +"</span>"+
+						"</a></strong><ul class='xans-element- xans-product xans-product-listitem spec'>"+
+						"<li class='xans-record-'>"+
+						"<strong class='title displaynone'>"+
+						"<span style='font-size: 12px; color: #6d6d6d;' data-i18n='PRODUCT.PRD_INFO_SUMMARY_DESC'>상품요약정보</span> :</strong>"+
+						"<span style='font-size: 12px; color: #6d6d6d;'>"+ list[i].productEx +"</span>"+
+						"</li><li class='xans-record-'>"+
+						"<strong class='title displaynone'>"+
+						"<span style='font-size: 16px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_PRICE'>판매가</span> :</strong>"+
+						"<span style='font-size: 16px; color: #000000;'>"+ comma(list[i].productPrice) +"원</span>"+
+						"<span id='span_product_tax_type_text' style=''> </span>"+
+						"</li></ul></div></div></li>"
+					}
+					
+					$('#proList').html(""); //위에서 기본 조건틀이 존재하므로 ul태그 안쪽을 비워주는 것
+					$('#proList').html(productList); // ul태그 안쪽을 for문으로 갈아치는 거 
+				},
+				error: function(request, status, error) {
+					alert(error);
 				}
+			});
+		} else if(selected == "hi"){
+			
+			$.ajax({
+				type:'post',
+				url: '/productCategoryAjax.do', //컨트롤러 안쪽 productCategory.do은 map형식으로 리턴하지 않아 따로 ajax.do로 만들어놨음
+				data: { priceSel : selected,  productCategory : productCategory}, //선택된 것(hi인지 low인지), 컨트롤러에서 카테고리로 불러오는 xml 건들지 않고 바로 가져다 쓰기 위한것과 어떤 카테고리를 선택했는지 알아야해서 두가지를 가지고 ajax 사용
+				dataType:"json",
+				success: function(data) {
+					var list = data.list;
+					var length = list.length; //size를 먼저 끌고 오려고 했지만 length 와 같아 그냥 length 선언후에 사용함 
 				
-				$('#proList').html(""); //위에서 기본 조건틀이 존재하므로 ul태그 안쪽을 비워주는 것
-				$('#proList').html(productList); // ul태그 안쪽을 for문으로 갈아치는 거 
-			},
-			error: function(request, status, error) {
-				alert(error);
-			}
-		});
+					for(var i=0; i<length; i++){ 
+						productList = productList +
+						"<li id='anchorBoxId_21' class='xans-record-'>"+
+						"<div class='prdList__item'>"+
+						"<div class='thumbnail'>"+
+						"<a href='#none;' id='img"+i+"' onclick="+"'movePD"+"('"+ list[i].productNo +"')"+"'>"+
+						"<img src='${pageContext.request.contextPath}/resources/img/product"+ list[i].mainImg +"' >"+
+						"</a></div><div class='description'>"+
+						"<strong class='name'>"+
+						"<a href='#none;' id='proName"+i+"' onclick='movePD"+"('"+ list[i].productNo +"')"+"' class=''>"+
+						"<span class='title displaynone'>"+
+						"<span style='font-size: 13px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_NAME'>상품명</span> :</span>"+
+						"<span style='font-size: 13px; color: #000000;'>"+ list[i].productName +"</span>"+
+						"</a></strong><ul class='xans-element- xans-product xans-product-listitem spec'>"+
+						"<li class='xans-record-'>"+
+						"<strong class='title displaynone'>"+
+						"<span style='font-size: 12px; color: #6d6d6d;' data-i18n='PRODUCT.PRD_INFO_SUMMARY_DESC'>상품요약정보</span> :</strong>"+
+						"<span style='font-size: 12px; color: #6d6d6d;'>"+ list[i].productEx +"</span>"+
+						"</li><li class='xans-record-'>"+
+						"<strong class='title displaynone'>"+
+						"<span style='font-size: 16px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_PRICE'>판매가</span> :</strong>"+
+						"<span style='font-size: 16px; color: #000000;'>"+ comma(list[i].productPrice) +"원</span>"+
+						"<span id='span_product_tax_type_text' style=''> </span>"+
+						"</li></ul></div></div></li>"
+					}
+					
+					$('#proList').html(""); //위에서 기본 조건틀이 존재하므로 ul태그 안쪽을 비워주는 것
+					$('#proList').html(productList); // ul태그 안쪽을 for문으로 갈아치는 거 
+				},
+				error: function(request, status, error) {
+					alert(error);
+				}
+			});
+		}
+	} else {
+		if(selected == "low"){
+			
+			$.ajax({
+				type:'post',
+				url: '/productSeasonAjax.do', //컨트롤러 안쪽 productCategory.do은 map형식으로 리턴하지 않아 따로 ajax.do로 만들어놨음
+				data: { priceSel : selected,  productSeason : productSeason}, //선택된 것(hi인지 low인지), 컨트롤러에서 카테고리로 불러오는 xml 건들지 않고 바로 가져다 쓰기 위한것과 어떤 카테고리를 선택했는지 알아야해서 두가지를 가지고 ajax 사용
+				dataType:"json",
+				success: function(data) {
+					var list = data.list;
+					var length = list.length; //size를 먼저 끌고 오려고 했지만 length 와 같아 그냥 length 선언후에 사용함 
+					
+					for(var i=0; i<length; i++){
+						productList = productList +
+						"<li id='anchorBoxId_21' class='xans-record-'>"+
+						"<div class='prdList__item'>"+
+						"<div class='thumbnail'>"+
+						"<a href='#none;' id='img"+i+"' onclick="+"'movePD"+"('"+ list[i].productNo +"')"+"'>"+
+						"<img src='${pageContext.request.contextPath}/resources/img/product"+ list[i].mainImg +"' >"+
+						"</a></div><div class='description'>"+
+						"<strong class='name'>"+
+						"<a href='#none;' id='proName"+i+"' onclick='movePD"+"('"+ list[i].productNo +"')"+"' class=''>"+
+						"<span class='title displaynone'>"+
+						"<span style='font-size: 13px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_NAME'>상품명</span> :</span>"+
+						"<span style='font-size: 13px; color: #000000;'>"+ list[i].productName +"</span>"+
+						"</a></strong><ul class='xans-element- xans-product xans-product-listitem spec'>"+
+						"<li class='xans-record-'>"+
+						"<strong class='title displaynone'>"+
+						"<span style='font-size: 12px; color: #6d6d6d;' data-i18n='PRODUCT.PRD_INFO_SUMMARY_DESC'>상품요약정보</span> :</strong>"+
+						"<span style='font-size: 12px; color: #6d6d6d;'>"+ list[i].productEx +"</span>"+
+						"</li><li class='xans-record-'>"+
+						"<strong class='title displaynone'>"+
+						"<span style='font-size: 16px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_PRICE'>판매가</span> :</strong>"+
+						"<span style='font-size: 16px; color: #000000;'>"+ comma(list[i].productPrice) +"원</span>"+
+						"<span id='span_product_tax_type_text' style=''> </span>"+
+						"</li></ul></div></div></li>"
+					}
+					
+					$('#proList').html(""); //위에서 기본 조건틀이 존재하므로 ul태그 안쪽을 비워주는 것
+					$('#proList').html(productList); // ul태그 안쪽을 for문으로 갈아치는 거 
+				},
+				error: function(request, status, error) {
+					alert(error);
+				}
+			});
+		} else if(selected == "hi"){
+			
+			$.ajax({
+				type:'post',
+				url: '/productSeasonAjax.do', //컨트롤러 안쪽 productCategory.do은 map형식으로 리턴하지 않아 따로 ajax.do로 만들어놨음
+				data: { priceSel : selected,  productSeason : productSeason}, //선택된 것(hi인지 low인지), 컨트롤러에서 카테고리로 불러오는 xml 건들지 않고 바로 가져다 쓰기 위한것과 어떤 카테고리를 선택했는지 알아야해서 두가지를 가지고 ajax 사용
+				dataType:"json",
+				success: function(data) {
+					var list = data.list;
+					var length = list.length; //size를 먼저 끌고 오려고 했지만 length 와 같아 그냥 length 선언후에 사용함 
+				
+					for(var i=0; i<length; i++){ 
+						productList = productList +
+						"<li id='anchorBoxId_21' class='xans-record-'>"+
+						"<div class='prdList__item'>"+
+						"<div class='thumbnail'>"+
+						"<a href='#none;' id='img"+i+"' onclick="+"'movePD"+"('"+ list[i].productNo +"')"+"'>"+
+						"<img src='${pageContext.request.contextPath}/resources/img/product"+ list[i].mainImg +"' >"+
+						"</a></div><div class='description'>"+
+						"<strong class='name'>"+
+						"<a href='#none;' id='proName"+i+"' onclick='movePD"+"('"+ list[i].productNo +"')"+"' class=''>"+
+						"<span class='title displaynone'>"+
+						"<span style='font-size: 13px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_NAME'>상품명</span> :</span>"+
+						"<span style='font-size: 13px; color: #000000;'>"+ list[i].productName +"</span>"+
+						"</a></strong><ul class='xans-element- xans-product xans-product-listitem spec'>"+
+						"<li class='xans-record-'>"+
+						"<strong class='title displaynone'>"+
+						"<span style='font-size: 12px; color: #6d6d6d;' data-i18n='PRODUCT.PRD_INFO_SUMMARY_DESC'>상품요약정보</span> :</strong>"+
+						"<span style='font-size: 12px; color: #6d6d6d;'>"+ list[i].productEx +"</span>"+
+						"</li><li class='xans-record-'>"+
+						"<strong class='title displaynone'>"+
+						"<span style='font-size: 16px; color: #000000;' data-i18n='PRODUCT.PRD_INFO_PRODUCT_PRICE'>판매가</span> :</strong>"+
+						"<span style='font-size: 16px; color: #000000;'>"+ comma(list[i].productPrice) +"원</span>"+
+						"<span id='span_product_tax_type_text' style=''> </span>"+
+						"</li></ul></div></div></li>"
+					}
+					
+					$('#proList').html(""); //위에서 기본 조건틀이 존재하므로 ul태그 안쪽을 비워주는 것
+					$('#proList').html(productList); // ul태그 안쪽을 for문으로 갈아치는 거 
+				},
+				error: function(request, status, error) {
+					alert(error);
+				}
+			});
+		}
 	}
+	
+	
 }
 </script>
 </html>

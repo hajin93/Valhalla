@@ -67,6 +67,42 @@ public class ProductController {
 
    }
    
+   
+   @RequestMapping("collection.do")
+   public String product_season(HttpServletRequest request, ProductVO productVo, Model model){
+      
+      List<ProductVO> list = new ArrayList<ProductVO>();
+      list = productServiceImpl.getProductSeason(productVo);
+      
+      String collec = "";
+      
+      if(request.getParameter("collec") != null) {
+    	  collec = request.getParameter("collec").toString();
+      }
+      
+      model.addAttribute("collec", collec);
+      model.addAttribute("list", list);
+      model.addAttribute("size", list.size());
+      model.addAttribute("productSeason", productVo.getProductSeason());
+      
+      return "/product/product_category"; 
+
+   } 
+   
+   @RequestMapping("productSeasonAjax.do")
+   @ResponseBody
+   public Map<String,Object> productSeasonAjax(ProductVO productVo){
+	   Map<String,Object> map = new HashMap<String,Object>();
+	   
+	   List<ProductVO> list = new ArrayList<ProductVO>();
+	   list = productServiceImpl.getProductSeason(productVo);
+	      
+	   map.put("list", list);
+	   
+	   return map;
+   }
+	   
+	   
    @RequestMapping("productCategoryAjax.do")
    @ResponseBody
    public Map<String,Object> productCategoryAjax(ProductVO productVo){
@@ -74,6 +110,8 @@ public class ProductController {
 	   
 	   List<ProductVO> list = new ArrayList<ProductVO>();
 	   list = productServiceImpl.getProductCategory(productVo);
+	   
+	   System.out.println("qweqwe__c" + list);
 	      
 	   map.put("list", list);
 	   
