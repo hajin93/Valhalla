@@ -398,9 +398,13 @@
 <%@ include file="../common/footer.jsp" %>
 </body>
 <script type="text/javascript">
-$(function(){
+/***********************************************************/
+let allChk, pChk, pChk2, sChk, sChk2;
+/***********************************************************/
+
+$(()=>{
+	//체크박스클릭이벤트 안쪽에서 반복적으로 사용 되므로 전역변수로 뺌
 	
-	//
 	$('#cancelBtn').click(()=>{
 		$('#movedPage').attr('action', '/memberLogin.do');
 		$('#movedPage').submit();
@@ -408,10 +412,8 @@ $(function(){
 	
 	//다음버튼 클릭이벤트
 	$('#nextBtn').click(()=>{
-		var pChk = document.getElementById('pChk').checked;
-		var pChk2 = document.getElementById('pChk2').checked;
 		
-		if(!(pChk == true && pChk2 == true)){
+		if(!(pChk && pChk2)){
 			alert("필수체크항목에 체크해주세요.");
 			return;
 		}
@@ -419,106 +421,82 @@ $(function(){
 		$('#movedPage').submit();
 	});
 	
+	
 	$('#allChk').click(()=>{
-		var allChk = document.getElementById('allChk').checked;
-		if(allChk == true){
-			$('#pChk').prop("checked",true);
-			$('#pChk2').prop("checked",true);
-			$('#sChk').prop("checked",true);
-			$('#sChk2').prop("checked",true);
-			return;
-		} else {
-			$('#pChk').prop("checked",false);
-			$('#pChk2').prop("checked",false);
-			$('#sChk').prop("checked",false);
-			$('#sChk2').prop("checked",false);
-			return;
-		}
+		let value = ["pChk", "pChk2", "sChk", "sChk2"];
+		
+		defaultSettings();
+		
+		$.each(value , (idx , val)=>{
+			if(allChk){
+				$('#'+val).prop("checked",true);
+				return;
+			} else {
+				$('#'+val).prop("checked",false);
+				return;
+			}
+		});
 	});
 	
 	$("#pChk").click(()=>{
-		var allChk = document.getElementById('allChk').checked;
-		var pChk = document.getElementById('pChk').checked;
-		var pChk2 = document.getElementById('pChk2').checked;
-		var sChk = document.getElementById('sChk').checked;
-		var sChk2 = document.getElementById('sChk2').checked;
-		
-		if(pChk == true){
-			
-			if(pChk2 && sChk && sChk2){
-				$("#allChk").prop("checked", true);
-			}
+		defaultSettings();
+		if(pChk){
+			if(pChk2 && sChk && sChk2) $("#allChk").prop("checked", true);
 			$('#pChk').prop("checked", true);
 			return;
 		} else {
-			
-			if(pChk2 && sChk && sChk2){
-				$("#allChk").prop('checked', false);			
-			}
+			if(pChk2 && sChk && sChk2) $("#allChk").prop('checked', false);			
 			$('#pChk').prop("checked", false);
 			return;
 		}
 	});
 	
 	$("#pChk2").click(()=>{
-		var pChk = document.getElementById('pChk').checked;
-		var pChk2 = document.getElementById('pChk2').checked;
-		var sChk = document.getElementById('sChk').checked;
-		var sChk2 = document.getElementById('sChk2').checked;
-		if(pChk2 == true){
-			if(pChk && sChk && sChk2){
-				$("#allChk").prop("checked", true);
-			}
+		defaultSettings();
+		if(pChk2){
+			if(pChk && sChk && sChk2) $("#allChk").prop("checked", true);
 			$('#pChk2').prop("checked", true);
 			return;
 		} else {
-			if(pChk && sChk && sChk2){
-				$("#allChk").prop('checked', false);
-			}
+			if(pChk && sChk && sChk2) $("#allChk").prop('checked', false);
 			$('#pChk2').prop("checked", false);
 			return;
 		}
 	});
 	
 	$("#sChk").click(()=>{
-		var pChk = document.getElementById('pChk').checked;
-		var pChk2 = document.getElementById('pChk2').checked;
-		var sChk = document.getElementById('sChk').checked;
-		var sChk2 = document.getElementById('sChk2').checked;
-		if(sChk == true){
-			if(pChk && pChk2 && sChk2){
-				$("#allChk").prop("checked", true);
-			}
+		defaultSettings();
+		if(sChk){
+			if(pChk && pChk2 && sChk2) $("#allChk").prop("checked", true);
 			$('#sChk').prop("checked", true);
 			return;
 		} else {
-			if(pChk && pChk2 && sChk2){
-				$("#allChk").prop('checked', false);
-			}
+			if(pChk && pChk2 && sChk2) $("#allChk").prop('checked', false);
 			$('#sChk').prop("checked", false);
 			return;
 		}
 	});
 	
 	$("#sChk2").click(()=>{
-		var pChk = document.getElementById('pChk').checked;
-		var pChk2 = document.getElementById('pChk2').checked;
-		var sChk = document.getElementById('sChk').checked;
-		var sChk2 = document.getElementById('sChk2').checked;
-		if(sChk2 == true){
-			if(pChk && pChk2 && sChk){
-				$("#allChk").prop("checked", true);
-			}
+		defaultSettings();
+		if(sChk2){
+			if(pChk && pChk2 && sChk) $("#allChk").prop("checked", true);
 			$('#sChk2').prop("checked", true);
 			return;
 		} else {
-			if(pChk && pChk2 && sChk){
-				$("#allChk").prop('checked', false);
-			}
+			if(pChk && pChk2 && sChk) $("#allChk").prop('checked', false);
 			$('#sChk2').prop("checked", false);
 			return;
 		}
 	});
+});
+
+let defaultSettings = (()=>{
+	allChk = document.getElementById('allChk').checked;
+	pChk = document.getElementById('pChk').checked;    
+	pChk2 = document.getElementById('pChk2').checked;  
+	sChk = document.getElementById('sChk').checked;    
+	sChk2 = document.getElementById('sChk2').checked;  
 });
 </script>
 </html>

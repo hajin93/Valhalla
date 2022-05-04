@@ -94,28 +94,14 @@
    <%@ include file="../common/footer.jsp"%>
 </body>
 <script type="text/javascript">
-$(function(){
-	//주문취소
-	$('#orderCancel').click(()=>{
-	 
-	});
+$(()=>{
+	let value = ["orderCancel", "trade", "rollback", "detail"];
 	
-	//교환신청
-	$('#trade').click(()=>{
-	 
+	$.each(value ,(idx ,val)=>{
+		$('#'+val).click(()=>{
+			
+		});
 	});
-	
-	//반품신청
-	$('#rollback').click(()=>{
-		
-	});
-	
-	//상세보기
-	$('#detail').click(()=>{
-		
-	});
-   
 });
-
 </script>
 </html>

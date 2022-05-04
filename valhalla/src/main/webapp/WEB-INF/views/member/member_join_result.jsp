@@ -113,14 +113,14 @@
 <%@ include file="../common/footer.jsp" %>
 </body>
 <script type="text/javascript">
-$(function(){
-	$('#mainBtn').click(()=>{
-		$("#movedPage").submit();
-	});
+$(()=>{
+	const value = ["mainBtn", "loginBtn"];
 	
-	$('#loginBtn').click(()=>{
-		$('#movedPage').attr("action", "/memberLogin.do");
-		$('#movedPage').submit();
+	$.each(value , (idx ,val)=>{
+		$('#'+val).click()=>{
+			if(val == "loginBtn") $('#movedPage').attr("action", "/memberLogin.do");
+			$('#movedPage').submit();
+		});
 	});
 });
 </script>

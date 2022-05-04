@@ -328,42 +328,39 @@
 <%@ include file="../common/footer.jsp" %>
 </body>
 <script type="text/javascript">
-$( document ).ready(function() {
+$(()=>{
     
-	var cate = $('#goCate').val(); //a태그에 들어가 있는 값을 못읽어 오기 때문에 히든으로 값을 가지고 오기 
+	let cate = $('#goCate').val(); //a태그에 들어가 있는 값을 못읽어 오기 때문에 히든으로 값을 가지고 오기 
 	
     
-	$('#goCategory').on('click',function(){ //카테고리 이동 a태그를 클릭했을때 기능
+	$('#goCategory').click(()=>{ //카테고리 이동 a태그를 클릭했을때 기능
 		
 		// 폼태그의 value값을 바꿔주면서 원하는 카테고리로 이동 하는 구분주기
 		//해더부분에서 준 구분값을 활용하여 사용한다 생각하면 이해하기 쉬움
 		if(cate == "outer"){ 
 			$('#productCategory').val("outer"); 
 			$('#movedCate').submit();
-		}else if(cate == "tops"){
+		} else if(cate == "tops"){
 			$('#productCategory').val("tops");
 			$('#movedCate').submit();
-		}else if(cate == "dresses"){
+		} else if(cate == "dresses"){
 			$('#productCategory').val("dresses");	
 			$('#movedCate').submit();
-		}else if(cate == "bottoms"){
+		} else if(cate == "bottoms"){
 			$('#productCategory').val("bottoms");
 			$('#movedCate').submit();
-		}else if(cate == "accessories"){
+		} else if(cate == "accessories"){
 			$('#productCategory').val("accessories");
 			$('#movedCate').submit();
 		}
-		
 	});
 	
 	//바로구매 클릭이벤트
-	$('#actionBuy').on('click', function(){
+	$('#actionBuy').click(()=>{
 		
-		var proCount = $('#proCount').val(); //선택 갯수 
-
+		let proCount = $('#proCount').val(); //선택 갯수 
 		$('#productNo').val($('#proNo').val());
 		$('#countnum').val(proCount);
-		
 		$('#movedOrder').submit(); //바로 구매 클릭시 바로 주문 폼으로 넘어가게 만듦
 	});
 	
@@ -371,44 +368,42 @@ $( document ).ready(function() {
 	
 	
 	//장바구니 클릭이벤트
-	$('#actionCart').on('click',function(){
+	$('#actionCart').click(()=>{
 		 
-		var productNo = $('#proNo').val();//상품코드
-		var productName = $('#proName').val(); //상품 이름
-		var productPrice= $('#proPrice').val(); //상품가격
-		var	productSize = $('#proSize').val(); //상품 사이즈
-		var productColor = $('#proCol').val(); //상품 컬러
-		var mainImg = $('#proImg').val(); //상품 이미지
-		var quantity = $('#proCount').val(); //선택 갯수 ;
-		var totalPrice = productPrice*quantity;	
-		var user_no ="";
+		let productNo = $('#proNo').val();//상품코드
+		let productName = $('#proName').val(); //상품 이름
+		let productPrice= $('#proPrice').val(); //상품가격
+		let	productSize = $('#proSize').val(); //상품 사이즈
+		let productColor = $('#proCol').val(); //상품 컬러
+		let mainImg = $('#proImg').val(); //상품 이미지
+		let quantity = $('#proCount').val(); //선택 갯수 ;
+		let totalPrice = productPrice*quantity;	
+		let user_no ="";
 			
-		if(localStorage.getItem("userNo")){
-			user_no = localStorage.getItem("userNo");//세션에 있는 유저 넘버 가지고 오는 법
-		} 
+		if(localStorage.getItem("userNo")) user_no = localStorage.getItem("userNo");//세션에 있는 유저 넘버 가지고 오는 법
 	
 		if(user_no == ""){ //로그인이 진행되지 않았을 경우
 			alert("로그인을 진행해주세요");
 			$('#movedlogin').submit();
 			return;
-		}else{
-			var result = confirm("장바구니에 선택한 상품이 담겼습니다. 장바구니로 이동하시겠습니까?"); //컨펌창 띄우기 및 구문
+		} else {
+			let result = confirm("장바구니에 선택한 상품이 담겼습니다. 장바구니로 이동하시겠습니까?"); //컨펌창 띄우기 및 구문
 			if(result){//컨펌창 확인 눌렀을 경우
 				 $.ajax({
 				    	type:"post",
 				    	url:"/cartPut.do",
 				    	data:{ productNo : productNo, productName : productName,  productPrice : productPrice, productSize : productSize, productColor : productColor, mainImg : mainImg, quantity : quantity, totalPrice : totalPrice, userNo : user_no},
 				    	dataType:"json",
-				    	success:function(data){
+				    	success:((data)=>{
 				    		$("#cuserNo").val(data.userNo);
 				    		$('#movedCart').submit(); //확인을 눌렀을 경우 위에  폼서브밋으로 넘겨주기
-				    	},
-				    	error:function(request, status, error){
-				    		
-		        		}
+				    	}),
+				    	error:((request, status, error)=>{
+				    		console.log(request, status, error);
+		        		})
 				    });
 				
-			}else{// 컨펌창에서 취소 눌렀을 경우
+			} else {// 컨펌창에서 취소 눌렀을 경우
 			    $.ajax({
 			    	type:"post",
 			    	url:"/cartPut.do",
@@ -417,52 +412,47 @@ $( document ).ready(function() {
 			    	success:function(data){
 			    		//페이지 넘어가는것이나 다른 기능 구현이 없으니까 비어있는 것 
 			    	},
-			    	error:function(request, status, error){
-			    		
-	        		}
+			    	error:((request, status, error)=>{
+			    		console.log(request, status, error);
+	        		})
 			    });
 			}
 		}
-		
-		
 	});
 	
-	
 	//위시리스트 클릭이벤트
-	$('#actionWish').on('click',function(){
+	$('#actionWish').click(()=>{
 		
-		var productNo = $('#proNo').val();//상품코드
-		var productName = $('#proName').val(); //상품 이름
-		var productPrice= $('#proPrice').val(); //상품가격
-		var	productSize = $('#proSize').val(); //상품 사이즈
-		var productColor = $('#proCol').val(); //상품 컬러
-		var mainImg = $('#proImg').val(); //상품 이미지
+		let productNo = $('#proNo').val();//상품코드
+		let productName = $('#proName').val(); //상품 이름
+		let productPrice= $('#proPrice').val(); //상품가격
+		let	productSize = $('#proSize').val(); //상품 사이즈
+		let productColor = $('#proCol').val(); //상품 컬러
+		let mainImg = $('#proImg').val(); //상품 이미지
 		
-		var user_no = "";
+		let user_no = "";
 		
-		if(localStorage.getItem("userNo")){
-			user_no = localStorage.getItem("userNo");//세션에 있는 유저 넘버 가지고 오는 법
-		} 
+		if(localStorage.getItem("userNo")) user_no = localStorage.getItem("userNo");//세션에 있는 유저 넘버 가지고 오는 법
 		
 		if(user_no == ""){ //로그인이 진행되지 않았을 경우
 			alert("로그인을 진행해주세요");
 			$('#movedlogin').submit();
 			return;
 		}else{
-			var result = confirm("위시리스트에 선택한 상품이 담겼습니다. 위시리스트로 이동하시겠습니까?"); //컨펌창 띄우기 및 구문
+			let result = confirm("위시리스트에 선택한 상품이 담겼습니다. 위시리스트로 이동하시겠습니까?"); //컨펌창 띄우기 및 구문
 			if(result){//컨펌창 확인 눌렀을 경우
 				 $.ajax({
 				    	type:"post",
 				    	url:"/wishPut.do",
 				    	data:{ userNo : user_no, productNo : productNo,  productName : productName, productPrice : productPrice, productSize : productSize, productColor : productColor, mainImg : mainImg },
 				    	dataType:"json",
-				    	success:function(data){
+				    	success:((data)=>{
 				    		$("#wuserNo").val(data.userNo);
 				    		$('#movedWish').submit(); //확인을 눌렀을 경우 위에 폼서브밋으로 넘겨주기
-				    	},
-				    	error:function(request, status, error){
-				    		
-		        		}
+				    	}),
+				    	error:((request, status, error)=>{
+				    		console.log(request, status, error);
+		        		})
 				    });
 				
 			}else{// 컨펌창에서 취소 눌렀을 경우
@@ -471,38 +461,36 @@ $( document ).ready(function() {
 			    	url:"/wishPut.do",
 			    	data:{ userNo : user_no, productNo : productNo,  productName : productName, productPrice : productPrice, productSize : productSize, productColor : productColor, mainImg : mainImg },
 			    	dataType:"json",
-			    	success:function(data){
+			    	success:((data)=>{
 			    		//페이지 넘어가는것이나 다른 기능 구현이 없으니까 비어있는 것
-			    	},
-			    	error:function(request, status, error){
-			    		
-	        		}
+			    	}),
+			    	error:((request, status, error)=>{
+			    		console.log(request, status, error);
+	        		})
 			    });
 			}
 		}
-		
 	});
-
 });
 
 //상품 선택 갯수 부분 
-function fnCalCount(type, ths){
-	
-    var $input = $(ths).parents("td").find("input[name='pop_out']"); // td가 부모이면서 input의 name이 pop_out인것
-    var tCount = Number($input.val());
-    var tEqCount = Number($('#stockQuantity').val());//재고 이상으로 카운트가 올라가는 것을 방지
+//function fnCalCount(type, ths){
+let fnCalCount = ((type, ths)=>{
+
+	let $input = $(ths).parents("td").find("input[name='pop_out']"); // td가 부모이면서 input의 name이 pop_out인것
+    let tCount = Number($input.val());
+    let tEqCount = Number($('#stockQuantity').val());//재고 이상으로 카운트가 올라가는 것을 방지
     
     if(type=='p'){
-    	if(tCount < tEqCount) $input.val(Number(tCount)+1);
-        }else{
-        	if(tCount >0) $input.val(Number(tCount)-1);
-		}
-    var proCount = $('#proCount').val(); //상품선택 개수
-    var proPrice = $('#proPrice').val(); //상품가격
-    var totalPrice = proPrice*proCount; //총가격 = 선택된 상품 개수* 상품 가격
+    	if(tCount < tEqCount){ $input.val(Number(tCount)+1);}
+        else{ if(tCount >0) $input.val(Number(tCount)-1);}
+    }
+    let proCount = $('#proCount').val(); //상품선택 개수
+    let proPrice = $('#proPrice').val(); //상품가격
+    let totalPrice = proPrice*proCount; //총가격 = 선택된 상품 개수* 상품 가격
     
     $('#totalPricem').text(comma(totalPrice)+"원 ("+proCount+"개)"); //html 상에서  콤마가 들어가서 보이게 하기위해 fmt사용했지만 함수사용으로 갈아치기 위해 comma함수 사용하면서 text로 갈아침
-}
+});
 
 </script>
 </html>

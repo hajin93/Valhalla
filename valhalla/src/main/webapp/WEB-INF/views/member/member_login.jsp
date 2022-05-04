@@ -112,12 +112,11 @@ $(function(){
 		var userPw = $("#user_pw").val();
 		
 		if(userId == ""){
-			alert("아이디를 입력해주세요.");
-			$('#user_id').focus();
+			nullCheckAlert("user_id", "아이디를 입력해주세요.");
 			return;
 		} else if(userPw == ""){
-			alert("비밀번호를 입력해주세요.");
-			$('#user_pw').focus();
+			nullCheckAlert("user_pw", "비밀번호를 입력해주세요.");
+			return;
 		}
 		
 		//존재하는 유저인지 체크
@@ -129,7 +128,7 @@ $(function(){
 			success : function(data){
 				console.log(data);
 				if(data.chkNum == 1){
-					alert("로그인에 성공하셨습니다.");
+					nullCheckAlert("nonFocus", "로그인에 성공하셨습니다.");
 					
 					//세션 올려두기
 					localStorage.setItem("userId", data.list.userId);
@@ -156,7 +155,7 @@ $(function(){
 					
 					return;
 				} else {
-					alert("로그인에 실패하셨습니다.");
+					nullCheckAlert("nonFocus", "로그인에 실패하셨습니다.");
 					return;
 				}
 			}

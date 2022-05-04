@@ -173,52 +173,22 @@
 <%@ include file="../common/footer.jsp"%>
 </body>
 <script type="text/javascript">
-$(document).ready(function(){
+$(()=>{
 	
 	$('#userIdConfirm').click(()=>{
-		var user_id = $("#user_id").val();
-		
 		//아이디 중복확인
-		$.ajax({
-			type : 'post',
-			url : '/duplicate.do',
-			data : {userId : user_id},
-			dataType : 'json',
-			success : function(data){
-				var chkNum = data.chkNum;
-				if(chkNum == 1){
-					alert("중복된 아이디 입니다.");
-					return;
-				} else {
-					$('#duplicateGubn').val('1');
-					alert("사용 가능한 아이디 입니다.");
-					return;
-				}
-			}
-		});
+		duplicateCallBack();
 	});
 	
 	//이메일 인증버튼 클릭이벤트
 	$('#emailCertBtn').click(()=>{
-		var email = $('#email').val();
-		
+
 		if(email == ""){
-			alert('이메일을 입력해주세요.');
-			$('#email').focus();
+			nullCheckAlert("email", "이메일을 입력해주세요.");
 			return;
 		}
-		
-		$.ajax({
-			type:'post',
-			url:'/emailCert.do',
-			data:{email: email},
-			dataType:'json',
-			success:function(data){
-				console.log(data);
-				$('#emailCertNum').val(data.certNum);
-				alert("인증번호를 보냈습니다.");
-			}
-		});
+		//인증번호 보내는 기능
+		emailCertCallBack();
 	});
 	
 	$('#emailConfirmBtn').click(()=>{
@@ -237,87 +207,63 @@ $(document).ready(function(){
 	});
 	
 	$('#joinBtn').click(()=>{
-		var userId = $('#user_id').val();
-		var userPw = $('#user_pw').val();
-		var userPwCon = $('#user_pw_confirm').val();
-		var userName = $('#user_name').val();
-		var userJumin = $('#jumin1').val() + "-" + $('#jumin2').val();
-		var jumin1 = $('#jumin1').val();
-		var jumin2 = $('#jumin2').val();
-		var phone = $('#mobile1 option:selected').val() + "-" + $('#mobile2').val() + "-" + $('#mobile3').val();
-		var mobile2 = $('#mobile2').val();
-		var mobile3 = $('#mobile3').val();
-		var email = $('#email').val();
-		var emailCertGubn = $('#emailCertGubn').val();
-		var emailCertNum = $('#emailCertNum').val();
-		var duplicateGubn = $('#duplicateGubn').val();
-		var gubn = "";
+		let userId = $('#user_id').val();
+		let userPw = $('#user_pw').val();
+		let userPwCon = $('#user_pw_confirm').val();
+		let userName = $('#user_name').val();
+		let userJumin = $('#jumin1').val() + "-" + $('#jumin2').val();
+		let jumin1 = $('#jumin1').val();
+		let jumin2 = $('#jumin2').val();
+		let phone = $('#mobile1 option:selected').val() + "-" + $('#mobile2').val() + "-" + $('#mobile3').val();
+		let mobile2 = $('#mobile2').val();
+		let mobile3 = $('#mobile3').val();
+		let email = $('#email').val();
+		let emailCertGubn = $('#emailCertGubn').val();
+		let emailCertNum = $('#emailCertNum').val();
+		let duplicateGubn = $('#duplicateGubn').val();
+		let gubn = "U";
 		
-		if(userId == "admin"){
-			gubn = "M";
-		} else {
-			gubn = "U";
-		}
+		if(userId == "admin") gubn = "M";
 		
 		if(userId == ""){
-			alert("아이디를 확인해주세요.");
-			$('#user_id').focus();
+			nullCheckAlert("user_id", "아이디를 학인해주세요.");
 			return;
 		} else if(duplicateGubn == '0'){
-			alert("중복확인을 해주세요.");
+			nullCheckAlert("nonFocus", "중복확인을 해주세요.");
 			return;
 		} else if(userPw == ""){
-			alert("비밀번호을 확인해주세요.");
-			$('#user_pw').focus();
+			nullCheckAlert("user_pw", "비밀번호을 확인해주세요.");
 			return;
 		} else if(userPwCon == ""){
-			alert("비밀번호 확인을 확인해주세요.");
-			$('#user_pw_confirm').focus();
+			nullCheckAlert("user_pw_confirm", "비밀번호 확인을 확인해주세요.");
 			return;
 		} else if(userPw != userPwCon){
-			alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-			$('#user_pw').focus();
+			nullCheckAlert("user_pw", "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 			return;
 		} else if(userName == ""){
-			alert("이름을 확인해주세요.");
-			$('#user_name').focus();
+			nullCheckAlert("user_name", "이름을 확인해주세요.");
 			return;
 		} else if(jumin1 == ""){
-			alert("주민등록번호를 확인해주세요.");
-			$('#jumin1').focus();
+			nullCheckAlert("jumin1", "주민등록번호를 확인해주세요.");
 			return;
 		} else if(jumin2 == ""){
-			alert("주민등록번호를 확인해주세요.");
-			$('#jumin2').focus();
+			nullCheckAlert("jumin2", "주민등록번호를 확인해주세요.");
 			return;
 		} else if(mobile2 == ""){
-			alert("휴대전화번호를 확인해주세요.");
-			$('#mobile2').focus();
+			nullCheckAlert("mobile2", "휴대전화번호를 확인해주세요.");
 			return;
 		} else if(mobile3 == ""){
-			alert("휴대전화번호를 확인해주세요.");
-			$('#mobile3').focus();
+			nullCheckAlert("mobile3", "휴대전화번호를 확인해주세요.");
 			return;
 		} else if(email == ""){
-			alert("이메일을 확인해주세요.");
-			$('#email').focus();
+			nullCheckAlert("email", "이메일을 확인해주세요.");
 			return;
 		} else if(emailCertGubn == '0'){
-			alert("인증번호받기를 진행해주세요.");
+			nullCheckAlert("nonFocus", "인증번호받기를 진행해주세요.");
 			return;
 		}
 		
-		//현재날짜 구하기
-		var today = new Date();
-		var year = today.getFullYear(); // 년도
-		var month = today.getMonth() + 1;  // 월
-		var date = today.getDate();  // 날짜
-		var time = "";
-		if(date < 10){
-			date = "0" + date;
-		}
-		
-		time = year + '-' + month + '-' + date;
+		let time = today();
 		
 		$("#userId").val(userId); 	
 		$("#userPw").val(userPw); 	
@@ -330,11 +276,41 @@ $(document).ready(function(){
 		$('#gubn').val(gubn);
 		
 		$('#joinForm').submit();
-		
-		
+	});
+});
+
+//아이디 중복확인
+let duplicateCallBack = (()=>{
+	$.ajax({
+		type : 'post',
+		url : '/duplicate.do',
+		data : {userId : $("#user_id").val()},
+		dataType : 'json',
+		success :((data)=>{
+			if(data.chkNum == 1){
+				nullCheckAlert("nonFocus", "중복된 아이디 입니다.");
+				return;
+			} else {
+				$('#duplicateGubn').val('1');
+				nullCheckAlert("nonFocus", "사용 가능한 아이디 입니다.");
+				return;
+			}
+		})
+	});
+});
+
+//인증번호 보내는 기능
+let emailCertCallBack = (()=>{
+	$.ajax({
+		type:'post',
+		url:'/emailCert.do',
+		data:{email: $('#email').val()},
+		dataType:'json',
+		success:(()=>{
+			$('#emailCertNum').val(data.certNum);
+			nullCheckAlert("nonFocus", "인증번호를 보냈습니다.");
+		})
 	});
 });
 </script>
 </html>
-
-

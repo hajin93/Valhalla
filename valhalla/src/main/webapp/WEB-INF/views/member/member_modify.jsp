@@ -99,7 +99,7 @@
 <form id="movedMypage" method="post" action="/mypageOrderIndex.do"></form>
 </body>
 <script type="text/javascript">
-$(function(){
+$(()=>{
 	
 	//인증번호받기버튼 클릭이벤트
 	$('#emailCert').click(()=>{

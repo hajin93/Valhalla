@@ -84,28 +84,46 @@
 </form>
 </body>
 <script type="text/javascript">
-$(function(){
+//$(document).ready(function(){
+//$(function(){
+$(()=>{
 	
-	$('#summer').on('click',function(){ //썸머 컬렉션 클릭시 인풋히든 값으로 s 를 productSeason안으로 넣어서 폼서브밋시킴
-		$('#productSeason').val('s');
-		$('#movedColl').submit();
+	const value = ["summer", "winter", "ac"];
+	const gubn = ["s", "w", "a"];
+	
+	$.each(value, (idx, val)=>{
+		$('#'+val).click(()=>{
+			$('#productSeason').val(gubn[idx]);
+			//$('#productSeason').val(value[idx].substring(0,1));
+			$('#movedColl').submit();
+		});
 	});
 	
-	$('#winter').on('click',function(){ // 윈터 컬렉션 클릭시 인풋히든 값으로 w 를 productSeason안으로 넣어서 폼서브밋시킴
-		$('#productSeason').val('w');
-		$('#movedColl').submit();
-	});
+// 	$('#summer').click(()=>{//썸머 컬렉션 클릭시 인풋히든 값으로 s 를 productSeason안으로 넣어서 폼서브밋시킴
+// 		$('#productSeason').val('s');
+// 		$('#movedColl').submit();
+// 	});
 	
-	$('#ac').on('click',function(){ // 악세사리 컬렉션 클릭시 인풋히든 값으로 a 를 productSeason안으로 넣어서 폼서브밋시킴
-		$('#productSeason').val('a');
-		$('#movedColl').submit();
-	});
+// 	$('#winter').on('click',(()=>{ // 윈터 컬렉션 클릭시 인풋히든 값으로 w 를 productSeason안으로 넣어서 폼서브밋시킴
+// 		$('#productSeason').val('w');
+// 		$('#movedColl').submit();
+// 	});
+	
+// 	$('#ac').on('click',function(){ // 악세사리 컬렉션 클릭시 인풋히든 값으로 a 를 productSeason안으로 넣어서 폼서브밋시킴
+// 		$('#productSeason').val('a');
+// 		$('#movedColl').submit();
+// 	});
 });
 
-function movePD(productNo){
+// function movePD(productNo){
+// 	$('#productNo').val(productNo);
+// 	$('#movedPD').submit();
+// }
+
+let movePD = ((productNo)=>{ //function을 전역변수화 
 	$('#productNo').val(productNo);
 	$('#movedPD').submit();
-}
+});
 
 </script>
 </html>

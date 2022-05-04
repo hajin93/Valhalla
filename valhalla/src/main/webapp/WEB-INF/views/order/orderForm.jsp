@@ -422,17 +422,15 @@
 	</form>
 </body>
 <script type="text/javascript">
-$(document).ready(function(){
-	var userName = localStorage.getItem('userName');
-	var phone = localStorage.getItem('phone');
-	var email = localStorage.getItem('email');
-	var zipcode = localStorage.getItem('zipcode');
-	var address = localStorage.getItem('address');
-	var detailed_address = localStorage.getItem('detailed_address');
-	
-	
-	var phoneList = phone.split("-");
-	var emailList = email.split("@");
+$(()=>{
+	let userName = localStorage.getItem('userName');
+	let phone = localStorage.getItem('phone');
+	let email = localStorage.getItem('email');
+	let zipcode = localStorage.getItem('zipcode');
+	let address = localStorage.getItem('address');
+	let detailed_address = localStorage.getItem('detailed_address');
+	let phoneList = phone.split("-");
+	let emailList = email.split("@");
 	
 	$('#uname').val(userName); //주문자 이름
 	
@@ -450,8 +448,8 @@ $(document).ready(function(){
 	$('#uaddress2').val(detailed_address);
 	
 	//주문자 이메일 선택
-	$('#uemail3').change(function() {
-		$("#uemail3 option:selected").each(function() {
+	$('#uemail3').change(()=>{
+		$("#uemail3 option:selected").each(()=>{
 			if ($(this).val() == '2') { //직접입력일 경우 
 				$("#uemail2").val(''); //값 초기화 
 				$("#uemail2").attr("disabled", false); //활성화 
@@ -459,8 +457,7 @@ $(document).ready(function(){
 				alert("이메일을 선택해주세요.");
 				$("#uemail2").val(''); //값 초기화 
 				$("#uemail2").attr("disabled", false); //활성화
-			}
-			else { //직접입력이 아닐경우 
+			} else { //직접입력이 아닐경우 
 				$("#uemail2").val($(this).text()); //선택값 입력 
 				$("#uemail2").attr("disabled", true); //비활성화 
 			}
@@ -468,8 +465,8 @@ $(document).ready(function(){
 	});
 	
 	//받는사람 이메일 선택
-	$('#remail3').change(function() {
-		$("#remail3 option:selected").each(function() {
+	$('#remail3').change(()=>{
+		$("#remail3 option:selected").each(()=>{
 			if ($(this).val() == '2') { //직접입력일 경우 
 				$("#remail2").val(''); //값 초기화 
 				$("#remail2").attr("disabled", false); //활성화 
@@ -477,8 +474,7 @@ $(document).ready(function(){
 				alert("이메일을 선택해주세요.");
 				$("#remail2").val(''); //값 초기화 
 				$("#remail2").attr("disabled", false); //활성화
-			}
-			else { //직접입력이 아닐경우 
+			} else { //직접입력이 아닐경우 
 				$("#remail2").val($(this).text()); //선택값 입력 
 				$("#remail2").attr("disabled", true); //비활성화 
 			}
@@ -486,7 +482,7 @@ $(document).ready(function(){
 	});
 	
 	//라디오버튼 - 회원정보와 동일
-	$("input:radio[id=sameuser]").click(function(){
+	$("input:radio[id=sameuser]").click(()=>{
     	$('#rname').val(userName);
     	$('#rphone2').val(phoneList[1]);
     	$('#rphone3').val(phoneList[2]);
@@ -497,7 +493,7 @@ $(document).ready(function(){
     	$('#raddress2').val(detailed_address);
 	});
 	//라디오버튼 - 새로운 배송지
-	$("input:radio[id=newuser]").click(function(){
+	$("input:radio[id=newuser]").click(()=>{
     	$('#rname').val('');
     	$('#rphone2').val('');
     	$('#rphone3').val('');
@@ -509,8 +505,8 @@ $(document).ready(function(){
 	});
 
 	//받는사람 배송요청사항 선택
-	$('#ordermessage').change(function() {
-		$("#ordermessage option:selected").each(function() {
+	$('#ordermessage').change(()=>{
+		$("#ordermessage option:selected").each(()=>{
 			if ($(this).val() == '2') { //직접입력일 경우 
 				$("#omessage").val(''); //값 초기화 
 				$("#omessage").attr("disabled", false); //활성화 
@@ -542,85 +538,60 @@ $(document).ready(function(){
 	});
 	/* 결제하기 버튼 */
 	$('#payBtn').click(()=>{
-		//현재날짜 구하기
-		var today = new Date();
-		var year = today.getFullYear(); // 년도
-		var month = today.getMonth() + 1;  // 월
-		var date = today.getDate();  // 날짜
-		var orderTime = "";
-		if(date < 10){
-			date = "0" + date;
-		}
+		let orderTime = today();
 		
-		orderTime = year + '-' + month + '-' + date;
-		
-		var orderPrice = "${orderPrice }";
-		var userNo = localStorage.getItem("userNo");
-		var receiver = $('#rname').val();
-		var zipcode = $('#rzipcode1').val();
-		var address = $('#raddress1').val();
-		var detailedAddress = $('#raddress2').val();
-		var phone = $('#rphone1 option:selected').val() + "-" + $('#rphone2').val() + "-" + $('#rphone3').val();
-		
-		var productNo = $('#productno').val();
-		var mainImg = "${productList.get(0).mainImg }";
-		var productName = "${productList.get(0).productName }";
-		var productSize = "${productList.get(0).productSize }";
-		var productColor = "${productList.get(0).productColor }";
-		var productPrice = "${productList.get(0).productPrice }";
-		var quantity = "${orderQuantity }";
+		let orderPrice = "${orderPrice }";
+		let userNo = localStorage.getItem("userNo");
+		let receiver = $('#rname').val();
+		let zipcode = $('#rzipcode1').val();
+		let address = $('#raddress1').val();
+		let detailedAddress = $('#raddress2').val();
+		let phone = $('#rphone1 option:selected').val() + "-" + $('#rphone2').val() + "-" + $('#rphone3').val();
+		let productNo = $('#productno').val();
+		let mainImg = "${productList.get(0).mainImg }";
+		let productName = "${productList.get(0).productName }";
+		let productSize = "${productList.get(0).productSize }";
+		let productColor = "${productList.get(0).productColor }";
+		let productPrice = "${productList.get(0).productPrice }";
+		let quantity = "${orderQuantity }";
 		
 		//주문자 정보
 		if($('#uname').val() == ""){
-			alert("주문자의 이름을 입력해주세요.");
-			$('#uname').focus();
+			nullCheckAlert("uname", "주문자의 이름을 입력해주세요.");
 			return;
-		}
-		if($('#uphone2').val() == "" && $('#uphone3').val() == ""){
-			alert("주문자의 휴대전화를 입력해주세요.");
-			$('#uphone2').focus();
+		} else if($('#uphone2').val() == "" && $('#uphone3').val() == ""){
+			nullCheckAlert("uphone2", "주문자의 휴대전화를 입력해주세요.");
 			return;
-		}
-		if($('#uemail1').val() == "" && $('#uemail2').val() == ""){
-			alert("주문자의 이메일을 입력해주세요.");
-			$('#uemail1').focus();
+		} else if($('#uemail1').val() == "" && $('#uemail2').val() == ""){
+			nullCheckAlert("uemail1", "주문자의 이메일을 입력해주세요.");
 			return;
-		}
-		if($('#uzipcode1').val() == "" && $('#uaddress1').val() == "" && $('#uaddress2').val() == ""){
-			alert("주문자의 주소를 입력해주세요.");
-			$('#uzipcode1').focus();
+		} else if($('#uzipcode1').val() == "" && $('#uaddress1').val() == "" && $('#uaddress2').val() == ""){
+			nullCheckAlert("uzipcode1", "주문자의 주소를 입력해주세요.");
 			return;
 		}
 		
 		//배송지 정보
 		if($('#rname').val() == ""){
-			alert("받는분의 이름을 입력해주세요.");
-			$('#rname').focus();
+			nullCheckAlert("rname", "받는분의 이름을 입력해주세요.");
 			return;
-		}
-		if($('#rphone2').val() == "" && $('#rphone3').val() == ""){
-			alert("받는분의 휴대전화를 입력해주세요.");
-			$('#rphone2').focus();
+		} else if($('#rphone2').val() == "" && $('#rphone3').val() == ""){
+			nullCheckAlert("rphone2", "받는분의 휴대전화를 입력해주세요.");
 			return;
-		}
-		if($('#remail1').val() == "" && $('#remail2').val() == ""){
-			alert("받는분의 이메일을 입력해주세요.");
-			$('#remail1').focus();
+		} else if($('#remail1').val() == "" && $('#remail2').val() == ""){
+			nullCheckAlert("remail1", "받는분의 이메일을 입력해주세요.");
 			return;
-		}
-		if($('#rzipcode1').val() == "" && $('#raddress1').val() == "" && $('#raddress2').val() == ""){
-			alert("받는분의 배송지를 입력해주세요.");
-			$('#rzipcode1').focus();
+		} else if($('#rzipcode1').val() == "" && $('#raddress1').val() == "" && $('#raddress2').val() == ""){
+			nullCheckAlert("rzipcode1", "받는분의 배송지를 입력해주세요.");
 			return;
 		}
 		
 		//모든 약관 동의 체크
-		var payAgree = document.getElementById('payAgree').checked;
-		var mallAgree = document.getElementById('mallAgree').checked;
-		var userAgree = document.getElementById('userAgree').checked;
+		let payAgree = document.getElementById('payAgree').checked;
+		let mallAgree = document.getElementById('mallAgree').checked;
+		let userAgree = document.getElementById('userAgree').checked;
 		
-		if(!(payAgree == true && mallAgree == true && userAgree == true)){
-			alert("필수체크항목에 체크해주세요.");
+		if(!(payAgree && mallAgree && userAgree)){
+			nullCheckAlert("nonFocus", "필수체크항목에 체크해주세요.");
 			return;
 		}
 		
@@ -632,7 +603,6 @@ $(document).ready(function(){
 		$('#address').val(address);
 		$('#detailedAddress').val(detailedAddress);
 		$('#phone').val(phone);
-		
 		$('#productNo').val(productNo);
 		$('#mainImg').val(mainImg);
 		$('#productName').val(productName);
@@ -643,53 +613,40 @@ $(document).ready(function(){
 		
 		$('#movedPayPage').submit();
 	});
-	
 });
 
 /* 해당 상품 상세페이지 이동 */
-function productDetail(productNo){
+let productDetail = ((productNo)=>{
 	$('#productNum').val(productNo);
 	$('#movedProductDetail').submit();
-}
+});
+
 /* 다음 우편번호 검색 api - 주문자 주소 */
-function execution_daum_address1() {
+let execution_daum_address1 = (()=>{
 	new daum.Postcode({
-		oncomplete : function(data) {
+		oncomplete : ((data)=>{
 			/* 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. */
 			// 각 주소의 노출 규칙에 따라 주소를 조합한다.
 			// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-			var addr = ''; // 주소 변수
-			var extraAddr = ''; // 참고항목 변수
+			let addr = ''; // 주소 변수
+			let extraAddr = ''; // 참고항목 변수
 
 			//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-			if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-				addr = data.roadAddress;
-			} else { // 사용자가 지번 주소를 선택했을 경우(J)
-				addr = data.jibunAddress;
-			}
+			
+			if (data.userSelectedType === 'R') addr = data.roadAddress;// 사용자가 도로명 주소를 선택했을 경우
+			else addr = data.jibunAddress;// 사용자가 지번 주소를 선택했을 경우(J)
 
 			// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
 			if (data.userSelectedType === 'R') {
 				// 법정동명이 있을 경우 추가한다. (법정리는 제외)
 				// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-				if (data.bname !== ''
-						&& /[동|로|가]$/g.test(data.bname)) {
-					extraAddr += data.bname;
-				}
+				if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) extraAddr += data.bname;
 				// 건물명이 있고, 공동주택일 경우 추가한다.
-				if (data.buildingName !== ''
-						&& data.apartment === 'Y') {
-					extraAddr += (extraAddr !== '' ? ', '
-							+ data.buildingName
-							: data.buildingName);
-				}
+				if (data.buildingName !== '' && data.apartment === 'Y') extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
 				// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-				if (extraAddr !== '') {
-					extraAddr = ' (' + extraAddr + ')';
-				}
+				if (extraAddr !== '') extraAddr = ' (' + extraAddr + ')';
 				// 주소변수 문자열과 참고항목 문자열 합치기
 				addr += extraAddr;
-
 			} else {
 				addr += ' ';
 			}
@@ -699,13 +656,12 @@ function execution_daum_address1() {
 			$("#uaddress1").val(addr);
 			// 커서를 상세주소 필드로 이동한다.
 			document.getElementById("uaddress2").focus();
-		}
+		})
 	}).open();
-
-}
+});
 
 /* 다음 우편번호 검색 api - 받는사람 주소 */
-function execution_daum_address2() {
+let execution_daum_address2 = (()=>{
 	new daum.Postcode({
 		oncomplete : function(data) {
 			/* 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. */
@@ -715,34 +671,20 @@ function execution_daum_address2() {
 			var extraAddr = ''; // 참고항목 변수
 
 			//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-			if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-				addr = data.roadAddress;
-			} else { // 사용자가 지번 주소를 선택했을 경우(J)
-				addr = data.jibunAddress;
-			}
+			if (data.userSelectedType === 'R') addr = data.roadAddress;// 사용자가 도로명 주소를 선택했을 경우
+			else addr = data.jibunAddress;// 사용자가 지번 주소를 선택했을 경우(J)
 
 			// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
 			if (data.userSelectedType === 'R') {
 				// 법정동명이 있을 경우 추가한다. (법정리는 제외)
 				// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-				if (data.bname !== ''
-						&& /[동|로|가]$/g.test(data.bname)) {
-					extraAddr += data.bname;
-				}
+				if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) extraAddr += data.bname;
 				// 건물명이 있고, 공동주택일 경우 추가한다.
-				if (data.buildingName !== ''
-						&& data.apartment === 'Y') {
-					extraAddr += (extraAddr !== '' ? ', '
-							+ data.buildingName
-							: data.buildingName);
-				}
+				if (data.buildingName !== '' && data.apartment === 'Y') extraAddr += (extraAddr !== '' ? ', '+ data.buildingName : data.buildingName);
 				// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-				if (extraAddr !== '') {
-					extraAddr = ' (' + extraAddr + ')';
-				}
+				if (extraAddr !== '') extraAddr = ' (' + extraAddr + ')';
 				// 주소변수 문자열과 참고항목 문자열 합치기
 				addr += extraAddr;
-
 			} else {
 				addr += ' ';
 			}
@@ -754,7 +696,6 @@ function execution_daum_address2() {
 			document.getElementById("raddress2").focus();
 		}
 	}).open();
-
-}
+});
 </script>
 </html>
