@@ -86,35 +86,27 @@
 	<input type="hidden" id="sessionUserName" name="userName" value=""/>
 </form>
 <script type="text/javascript">
-$(function(){
+$(()=>{
 	
-	//아이디 찾기 페이지이동
-	$('#searchId').click(()=>{
-		$('#movedPage').attr("action","/memberFindId.do");
-		$('#movedPage').submit();
-	});
+	let value = ["searchId", "searchPw", "joinBtn"];/* searchId : 아이디 찾기 페이지이동,searchPw : 비밀번호 찾기 페이지이동, joinBtn : 회원가입 페이지이동 */
+	let url = ["/memberFindId.do", "/memberFindPw.do", "/memberAgreement.do"];
 	
-	//비밀번호 찾기 페이지이동
-	$('#searchPw').click(()=>{
-		$('#movedPage').attr("action","/memberFindPw.do");
-		$('#movedPage').submit();
-	});
-	
-	//회원가입 페이지이동
-	$('#joinBtn').click(()=>{
-		$('#movedPage').attr("action","/memberAgreement.do");
-		$('#movedPage').submit();
+	$.each(value, (idx, val)=>{
+		$('#'+ val).click(()=>{
+			$('#movedPage').attr("action", url[idx]);
+			$('#movedPage').submit();
+		});
 	});
 	
 	//로그인버튼 클릭이벤트
 	$('#loginBtn').click(()=>{
-		var userId = $('#user_id').val();
-		var userPw = $("#user_pw").val();
+		let userId = $('#user_id').val();
+		let userPw = $("#user_pw").val();
 		
-		if(userId == ""){
+		if(!userId){
 			nullCheckAlert("user_id", "아이디를 입력해주세요.");
 			return;
-		} else if(userPw == ""){
+		} else if(!userPw){
 			nullCheckAlert("user_pw", "비밀번호를 입력해주세요.");
 			return;
 		}
@@ -125,8 +117,7 @@ $(function(){
 			url : '/loginChking.do',
 			data : { userId : userId, userPw : userPw},
 			dataType : 'json',
-			success : function(data){
-				console.log(data);
+			success : ((data)=>{
 				if(data.chkNum == 1){
 					nullCheckAlert("nonFocus", "로그인에 성공하셨습니다.");
 					
@@ -138,15 +129,9 @@ $(function(){
 					localStorage.setItem("email", data.list.email);
 					localStorage.setItem("gubn", data.list.gubn);//관리자인지 유저인지 구분하는 구분값 (m관리자 , u사용자)
 					
-					if(data.list.zipcode){
-	                  localStorage.setItem("zipcode" , data.list.zipcode);
-	                }
-	                if(data.list.address){
-	                   localStorage.setItem("address", data.list.address);
-	                }
-	                if(data.list.detailAddress){
-	                   localStorage.setItem("detailAddress", data.list.detailAddress);
-	                }
+					if(data.list.zipcode) localStorage.setItem("zipcode" , data.list.zipcode);
+	                if(data.list.address) localStorage.setItem("address", data.list.address);
+	                if(data.list.detailAddress) localStorage.setItem("detailAddress", data.list.detailAddress);
 					
 					$('#sessionUserId').val(data.list.userId);
 					$('#sessionUserName').val(data.list.userName);
@@ -158,7 +143,7 @@ $(function(){
 					nullCheckAlert("nonFocus", "로그인에 실패하셨습니다.");
 					return;
 				}
-			}
+			})
 		});
 	});
 });

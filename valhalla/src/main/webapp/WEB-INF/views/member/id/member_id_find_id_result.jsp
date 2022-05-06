@@ -64,8 +64,8 @@
 <%@ include file="../../common/footer.jsp"%>
 </body>
 <script type="text/javascript">
-$(function(){
-	var size = "${size}";
+$(()=>{
+	let size = "${size}";
 	$('#size').text(size);
 	
 	//로그인 이동 클릭이벤트

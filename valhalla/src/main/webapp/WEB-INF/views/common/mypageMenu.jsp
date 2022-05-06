@@ -42,17 +42,13 @@
 </form>
 <form id="movedIndex" method="post" action="/index.do"></form>
 <script type="text/javascript">
-$(function(){
-	var user_no = "";
-	if(localStorage.getItem('userNo')){
-		user_no = localStorage.getItem('userNo');
-	}
+let user_no = "";
+$(()=>{
+	if(localStorage.getItem('userNo')) user_no = localStorage.getItem('userNo');
 	
 	//주문내역조회 클릭이벤트 
 	$('#mypageOrderIndex').click(()=>{
-		if(user_no != ""){
-			$("#user_No").val(user_no);			
-		}
+		if(user_no != "") $("#user_No").val(user_no);
 		$('#movedPage').attr("action", "/mypageOrderIndex.do");
 		$('#movedPage').submit();
 	})
@@ -63,22 +59,24 @@ $(function(){
 	});
 	
 	$("#exitBtn").click(()=>{
-		if (confirm("정말 탈퇴하시겠습니까??")){    //확인
-			$.ajax({
-				type : 'post',
-				url : '/deleteInfo.do',
-				data : { userId : user_id},
-				dataType : 'json',
-				success : function(data){
-					console.log(data);
-					if(data.exit){
-						alert("탈퇴완료 되었습니다.");
-						$('#movedIndex').submit();
-					}
-				}
-			});
+		if(confirm("정말 탈퇴하시겠습니까??")){//확인
+			deleteInfo();
 		}
 	});
-	
+});
+
+let deleteInfo = (()=>{
+	$.ajax({
+		type : 'post',
+		url : '/deleteInfo.do',
+		data : { userId : user_id},
+		dataType : 'json',
+		success : ((data)=>{
+			if(data.exit){
+				nullCheckAlert("nonFocus", "탈퇴완료 되었습니다.");
+				$('#movedIndex').submit();
+			}
+		})
+	});
 });
 </script>

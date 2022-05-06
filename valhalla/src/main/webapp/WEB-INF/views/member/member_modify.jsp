@@ -103,11 +103,10 @@ $(()=>{
 	
 	//인증번호받기버튼 클릭이벤트
 	$('#emailCert').click(()=>{
-		var email = $('#email').val();
+		let email = $('#email').val();
 		
-		if(email == "") {
-			alert("이메일을 입력해주세요.");
-			$('#email').focus();
+		if(!email && email == "") {
+			nullCheckAlert("email", "이메일을 입력해주세요.");
 			return;
 		}
 		
@@ -117,31 +116,29 @@ $(()=>{
 			url : '/emailCert.do',
 			data : { email : email },
 			dataType : 'json',
-			success : function(data){
-				console.log(data);
+			success : ((data)=>{
 				alert("인증번호를 보냈습니다.");
 				$('#emailCertGubn').val('1');
 				$("#certNum").val(data.certNum);
-			}
+			})
 		});
 	});
 	
 	//인증번호확인버튼 클릭이벤트
 	$("#emailCertNumConfirm").click(()=>{
-		var emailCertNum = $("#emailCertNum").val();
-		var certNum = $('#certNum').val();
+		let emailCertNum = $("#emailCertNum").val();
+		let certNum = $('#certNum').val();
 		
-		if(emailCertNum == ""){
-			alert("인증번호를 입력하세요.");
-			$('#emailCertNum').focus();
+		if(!emailCertNum && emailCertNum == ""){
+			nullCheckAlert("emailCertNum", "인증번호를 입력하세요.");
 			return;
 		}
 		
 		if(emailCertNum != certNum){
-			alert("인증번호가 맞지 않습니다.");
+			nullCheckAlert("nonFocus", "인증번호가 맞지 않습니다.");
 			return;
 		} else if(emailCertNum == certNum){
-			alert("인증이 완료되었습니다.");
+			nullCheckAlert("nonFocus", "인증이 완료되었습니다.");
 			$('#emailCertNumGubn').val('1');
 			return;
 		}
@@ -154,39 +151,35 @@ $(()=>{
 	
 	//회원정보수정버튼 클릭이벤트
 	$('#doModify').click(()=>{
-		var user_id = "";
-		var user_pw = $('#user_pw').val();
-		var userPwChk = $('#user_pw_chk').val();
-		var email = $('#email').val();
-		var emailCertNum = $('#emailCertNum').val();
-		var emailCertGubn = $('#emailCertGubn').val();
-		var emailCertNumGubn = $('#emailCertNumGubn').val();
+		let user_id = "";
+		let user_pw = $('#user_pw').val();
+		let userPwChk = $('#user_pw_chk').val();
+		let email = $('#email').val();
+		let emailCertNum = $('#emailCertNum').val();
+		let emailCertGubn = $('#emailCertGubn').val();
+		let emailCertNumGubn = $('#emailCertNumGubn').val();
 		
 		if(localStorage.getItem('userId')){
 			user_id = localStorage.getItem('userId');
 		}
 		
-		if(user_pw == ""){
-			alert("비밀번호를 입력해주세요.");
-			$('#user_pw').focus();
+		if(!user_pw && user_pw == ""){
+			nullCheckAlert("user_pw", "비밀번호를 입력해주세요.");
 			return;
-		} else if(userPwChk == ""){
-			alert("비밀번호확인을 입력해주세요.");
-			$('#user_pw_chk').focus();
+		} else if(!userPwChk && userPwChk == ""){
+			nullCheckAlert("user_pw_chk", "비밀번호확인을 입력해주세요.");
 			return;
-		} else if(email == ""){
-			alert("이메일을 입력해주세요.");
-			$('#email').focus();
+		} else if(!email && email == ""){
+			nullCheckAlert("email", "이메일을 입력해주세요.");
 			return;
 		} else if(emailCertGubn == '0'){
-			alert("이메일인증을 받아주세요.");
+			nullCheckAlert("nonFocus", "이메일인증을 받아주세요.");
 			return;
-		} else if(emailCertNum == ""){
-			alert("이메일인증번호를 입력해주세요.");
-			$('#emailCertNum').focus();
+		} else if(!emailCertNum && emailCertNum == ""){
+			nullCheckAlert("emailCertNum", "이메일인증번호를 입력해주세요.");
 			return;
 		} else if(emailCertNumGubn == '0'){
-			alert("인증번호로 인증을 진행해주세요.");
+			nullCheckAlert("nonFocus", "인증번호로 인증을 진행해주세요.");
 			return;
 		} 
 		
@@ -195,7 +188,6 @@ $(()=>{
 		$('#infoEmail').val(email);
 		$('#moveUpdate').submit();
 	});
-	
 });
 </script>
 </html>

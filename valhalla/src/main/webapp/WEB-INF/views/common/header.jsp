@@ -59,35 +59,29 @@
 </form>
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script type="text/javascript">
-$(function(){
+$(()=>{
    
-   var userId = ""; //유저아이디
-   var userNo = ""; //유저넘버
-   var userName = ""; //유저이름
-   var gubn = ""; //유저구분값
+   let userId = ""; //유저아이디
+   let userNo = ""; //유저넘버
+   let userName = ""; //유저이름
+   let gubn = ""; //유저구분값
    
    //isLogin 로그인했을때 넣어두었던 userId/gubn값 localStorage 세션값 꺼내서 셋팅 모든페이지에 header가 들어가므로 공통작업 
-   if(localStorage.getItem('userId')){ //유저아이디 localStorage 값이 있을때 꺼내서 셋팅
-     userId = localStorage.getItem('userId');
-   }
-   if(localStorage.getItem('userNo')){
-	   userNo = localStorage.getItem('userNo');
-   }
-   if(localStorage.getItem('gubn')){ //유저구분값 localStorage 값이 있을때 꺼내서 셋팅
-      gubn = localStorage.getItem('gubn');
-   }
+   if(localStorage.getItem('userId')) userId = localStorage.getItem('userId'); //유저아이디 localStorage 값이 있을때 꺼내서 셋팅
+   if(localStorage.getItem('userNo')) userNo = localStorage.getItem('userNo');
+   if(localStorage.getItem('gubn'))gubn = localStorage.getItem('gubn'); //유저구분값 localStorage 값이 있을때 꺼내서 셋팅
    
    //관리자, 사용자를 나눠서 보여주는 메뉴를 다르게 셋팅한다  / top_noMaster : 사용자 , top_master : 관리자
-   var top_normal = "<a href='/memberAgreement.do'><span id='joinIsLogin'>Join</span></a>"+
-                  "<a href='#none;' id='isLoginBtn'><span id='isLogin'>Login</span></a>"+
-                 "<a href='/orderBasket.do'>Cart<span class='count displaynone EC-Layout_Basket-count-display'>"+
-                 "<span class='EC-Layout-Basket-count'>0</span></span></a>";
+   let top_normal = "<a href='/memberAgreement.do'><span id='joinIsLogin'>Join</span></a>"+
+                    "<a href='#none;' id='isLoginBtn'><span id='isLogin'>Login</span></a>"+
+                    "<a href='/orderBasket.do'>Cart<span class='count displaynone EC-Layout_Basket-count-display'>"+
+                    "<span class='EC-Layout-Basket-count'>0</span></span></a>";
    
-   var top_noMaster = "<a href='#none;' id='isLoginBtn'><span id='isLogin'>Login</span></a>"+
-                   "<a href='/orderBasket.do'>Cart<span class='count displaynone EC-Layout_Basket-count-display'>"+
-                   "<span class='EC-Layout-Basket-count'>0</span></span></a>";                                    
+   let top_noMaster = "<a href='#none;' id='isLoginBtn'><span id='isLogin'>Login</span></a>"+
+                      "<a href='/orderBasket.do'>Cart<span class='count displaynone EC-Layout_Basket-count-display'>"+
+                      "<span class='EC-Layout-Basket-count'>0</span></span></a>";                                    
                    
-   var top_master = "<a href='#none;' id='isLoginBtn'><span id='isLogin'>Login</span></a>";
+   let top_master = "<a href='#none;' id='isLoginBtn'><span id='isLogin'>Login</span></a>";
    
    //gubn : U 혹은 "" 일때는 일반사용자 , gubn : M 일때는 관리자
    if(gubn == "U"){
@@ -100,83 +94,58 @@ $(function(){
    }
    
    //
-   if(userId != ""){
-      $('#isLogin').text('LogOut');
-   } else if(userId == ""){
-      $('#isLogin').text('Login');
-   }
+   if(userId != "")  $('#isLogin').text('LogOut');
+   else if(userId == "") $('#isLogin').text('Login');
    
-   var noMaster = "<li class='xans-record-'><a href='#none;' id='outer'>OUTER</a></li>"+
-                "<li class='xans-record-'><a href='#none;' id='top'>TOPS</a></li>"+
-                 "<li class='xans-record-'><a href='#none;' id='dress'>DRESSES</a></li>"+
-                "<li class='xans-record-'><a href='#none;' id='bottom'>BOTTOMS</a></li>"+
-                "<li class='xans-record-'><a href='#none;' id='acc'>ACCESSORIES</a></li>";
+   let noMaster = "<li class='xans-record-'><a href='#none;' id='outer'>OUTER</a></li>"+
+                  "<li class='xans-record-'><a href='#none;' id='tops'>TOPS</a></li>"+
+                  "<li class='xans-record-'><a href='#none;' id='dresses'>DRESSES</a></li>"+
+                  "<li class='xans-record-'><a href='#none;' id='bottoms'>BOTTOMS</a></li>"+
+                  "<li class='xans-record-'><a href='#none;' id='accessories'>ACCESSORIES</a></li>";
 
-   var master = "<li class='xans-record-'><a href='#none;' id='m_notice'>공지사항</a></li>"+
-             "<li class='xans-record-'><a href='#none;' id='m_qna'>1:1문의</a></li>"+
-             "<li class='xans-record-'><a href='#none;' id='m_deli'>배송관리</a></li>";
+   let master = "<li class='xans-record-'><a href='#none;' id='m_notice'>공지사항</a></li>"+
+                "<li class='xans-record-'><a href='#none;' id='m_qna'>1:1문의</a></li>"+
+                "<li class='xans-record-'><a href='#none;' id='m_deli'>배송관리</a></li>";
 
-   if(gubn == "U" || gubn == ""){
-      $('#header_menu').html(noMaster);
-   } else if(gubn == "M"){
-      $('#header_menu').html(master);
-   }
+   if(gubn == "U" || gubn == "") $('#header_menu').html(noMaster);
+   else if(gubn == "M") $('#header_menu').html(master);
    
    $('#isLoginBtn').click(()=>{
-     var txt = $('#isLogin').text();
-     if(txt == 'LogOut'){
+     
+     if($('#isLogin').text() == 'LogOut'){
         localStorage.removeItem('userId');
         localStorage.removeItem('userName');
         localStorage.removeItem('phone');
         localStorage.removeItem('email');
         localStorage.removeItem('gubn');
-        
-        
-        
      }
      $('#movedLogin').submit();
    });
    
    if(gubn == "U" || gubn == ""){
-      $('#outer').click(()=>{
-         $('#productCategory').val("outer");
-         $('#movedCate').submit();
-      });
+	   
+	   let value = ["outer", "tops", "dresses", "bottoms", "accessories"];
+	   
+	   $.each(value, (idx, val)=>{
+		   $('#'+ val).click(()=>{
+		      $('#productCategory').val(val);
+		      $('#movedCate').submit();
+		   });
+	   });
       
-      $('#top').click(()=>{
-         $('#productCategory').val("tops");
-         $('#movedCate').submit();
-      });
-      
-      $('#dress').click(()=>{
-         $('#productCategory').val("dresses");   
-         $('#movedCate').submit();
-      });
-         
-      $('#bottom').click(()=>{
-         $('#productCategory').val("bottoms");
-         $('#movedCate').submit();
-      });
-      
-      $('#acc').click(()=>{
-         $('#productCategory').val("accessories");
-         $('#movedCate').submit();
-      });
    } else if(gubn == "M"){
-      $('#m_notice').click(()=>{
-        alert("관리자 공지사항입니다."); 
-      });
+	 
+	  let value = ["m_notice", "m_qna", "m_deli"];
+	  let txtVal = ["관리자 공지사항입니다.", "관리자 1:1문의 입니다.", "관리자 배송관리 입니다."];
       
-      $('#m_qna').click(()=>{
-         alert("관리자 1:1문의 입니다.");
-      });
-      
-      $("#m_deli").click(()=>{
-        alert("관리자 배송관리 입니다."); 
-      });
+	  $.each(value, (idx, val)=>{
+		  $('#'+val).click(()=>{
+	    	  nullCheckAlert("nonFocus", txtVal[idx]);
+	      });
+	  });
    }
    
-   $('#wishgo').on('click',function(){
+   $('#wishgo').click(()=>{
 	   $("#userNo").val(userNo);
 	   $('#wishgogo').submit();
    });

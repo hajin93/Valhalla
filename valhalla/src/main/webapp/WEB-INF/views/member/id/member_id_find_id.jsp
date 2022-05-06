@@ -96,26 +96,25 @@
 </form>	
 </body>
 <script type="text/javascript">
-$(function(){
+let email;
+$(()=>{
 	$('#searchId').click(()=>{
-		var userName = $('#user_name').val();
-		var email = $('#email').val();
-		var emailCertGubn = $('#emailCertGubn').val();
-		var emailCertNum = $('#emailCertNum').val();
+		let userName = $('#user_name').val();
+		let email = $('#email').val();
+		let emailCertGubn = $('#emailCertGubn').val();
+		let emailCertNum = $('#emailCertNum').val();
 		
 		if(userName == ""){
-			alert("이름을 확인해주세요.");
-			$('#user_name').focus();
+			nullCheckAlert("user_name", "이름을 확인해주세요.");
 			return;
 		} else if(email == ""){
-			alert("이메일을 확인해주세요.");
-			$('#email').focus();
+			nullCheckAlert("email", "이메일을 확인해주세요.");
 			return;
 		} else if(emailCertGubn == '0'){
-			alert("이메일 인증을 해주세요.");
+			nullCheckAlert("nonFocus", "이메일 인증을 해주세요.");
 			return;
 		} else if(emailCertNum == ""){
-			alert("이메일 인증을 해주세요.");
+			nullCheckAlert("nonFocus", "이메일 인증을 해주세요.");
 			return;
 		}
 		
@@ -131,41 +130,41 @@ $(function(){
 	
 	//이메일인증버튼 클릭이벤트
 	$('#emailCertBtn').click(()=>{
-		var email = $('#email').val();
-		
+		email = $('#email').val();
 		if(email == ""){
-			alert('이메일을 입력해주세요.');
-			$('#email').focus();
+			nullCheckAlert("email", "이메일을 입력해주세요.");
 			return;
 		}
-		
-		$.ajax({
-			type : 'post',
-			url : '/emailCert.do',
-			data : { email : email},
-			dataType : 'json',
-			success : function(data){
-				console.log(data.certNum);
-				$('#certNum').val(data.certNum);
-				alert("인증번호를 보냈습니다.");
-			}
-		});
+		emailCert();
 	});
 	
 	//이메일인증번호 확인버튼 클릭이벤트
 	$('#emailCertConfirmBtn').click(()=>{
-		var certNum = $('#certNum').val();
-		var emailCertNum = $('#emailCertNum').val();
+		let certNum = $('#certNum').val();
+		let emailCertNum = $('#emailCertNum').val();
 		
 		if(certNum != emailCertNum){
-			alert("인증번호가 맞지 않습니다.");
+			nullCheckAlert("nonFocus", "인증번호가 맞지 않습니다.");
 			return;
 		} else {
 			$('#emailCertGubn').val('1');
-			alert("인증이 완료 되었습니다.");
+			nullCheckAlert("nonFocus", "인증이 완료 되었습니다.");
 			return;
 		}
 		
+	});
+});
+
+let emailCert = (()=>{
+	$.ajax({
+		type : 'post',
+		url : '/emailCert.do',
+		data : { email : email},
+		dataType : 'json',
+		success : ((data)=>{
+			$('#certNum').val(data.certNum);
+			nullCheckAlert("nonFocus", "인증번호를 보냈습니다.");
+		})
 	});
 });
 </script>
