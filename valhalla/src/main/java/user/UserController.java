@@ -192,10 +192,13 @@ public class UserController {
 		}
 		
 		int chkNum = userServiceImpl.getLoginChking(userVo);
-		userList = userServiceImpl.getUserInfoSession(userVo);
+		if(chkNum > 0) {
+			userList = userServiceImpl.getUserInfoSession(userVo);
+			map.put("list", userList.get(0));
+		}
 		
 		map.put("chkNum", chkNum);
-		map.put("list", userList.get(0));
+		
 		
 		return map;
 	}

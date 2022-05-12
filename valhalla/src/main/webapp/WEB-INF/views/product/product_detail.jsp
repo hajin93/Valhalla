@@ -134,10 +134,10 @@
 															<td>
 															<span class="quantity" style="width: 65px;">
 																<input type="text" id="proCount" name="pop_out" class="quantity_opt eProductQuantityClass" value="1" >
-															<a href="#none" class="up eProductQuantityUpClass" data-target="option_box3_up" onclick="fnCalCount('p',this);">
+															<a href="#none" class="up eProductQuantityUpClass" data-target="option_box3_up" id="up">
 																<img src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif" id="option_box3_up" class="option_box_up" alt="수량증가">
 															</a>
-															<a href="#none" class="down eProductQuantityDownClass" data-target="option_box3_down" onclick="fnCalCount('m', this);">
+															<a href="#none" class="down eProductQuantityDownClass" data-target="option_box3_down" id="down">
 																<img src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif" id="option_box3_down" class="option_box_down" alt="수량감소">
 															</a>
 															</span>
@@ -161,7 +161,7 @@
 							<div id="totalPrice" class="totalPrice">
 								<strong class="title">TOTAL <span class="qty">(QUANTITY)</span>
 								</strong>
-								<span class="total"><strong><span id="totalPricem"><fmt:formatNumber value="${proList.productPrice}" pattern="#,###" />원 (1개)</span></strong></span>
+								<span class="total"><strong><span><span id="totalPricem"><fmt:formatNumber value="${proList.productPrice}" pattern="#,###" /></span>원 (<span id="proCnt">1</span>개)</span></strong></span>
 							</div>
 							<div id="" class="xans-element- xans-product xans-product-action productAction">
 								<div class=" ">
@@ -332,9 +332,50 @@ $(()=>{
     
 	let cate = $('#goCate').val(); //a태그에 들어가 있는 값을 못읽어 오기 때문에 히든으로 값을 가지고 오기 
 	
+	$('#up').click(()=>{
+		let proCount = parseInt($('#proCount').val());
+		let stockQuantity = parseInt($('#stockQuantity').val());
+		let proPrice = parseInt($('#proPrice').val());
+		
+		//카운트업 막기
+		if(proCount == stockQuantity){
+			alert("재고수량을 넘길 수 없습니다.");
+			return;
+		}
+		
+		//수량카운트
+		proCount += 1;
+		$('#proCount').val(proCount);
+		$('#proCnt').text(proCount);
+		
+		proPrice *= proCount;
+		//총금액계산
+		$('#totalPricem').text(comma(proPrice));
+		
+	});
+	
+	$('#down').click(()=>{
+		let proCount = $('#proCount').val();
+		let stockQuantity = $('#stockQuantity').val();
+		let proPrice = parseInt($('#proPrice').val());
+		
+		//카운트다운 막기
+		if(proCount == 1){
+			alert("수량을 1개 이상 선택해 주세요.");
+			return;
+		}
+		
+		//수량카운트
+		proCount -= 1;
+		$('#proCount').val(proCount);
+		$('#proCnt').text(proCount);
+		
+		//총금액계산
+		proPrice *= proCount;
+		$('#totalPricem').text(comma(proPrice));
+	});
     
 	$('#goCategory').click(()=>{ //카테고리 이동 a태그를 클릭했을때 기능
-		
 		// 폼태그의 value값을 바꿔주면서 원하는 카테고리로 이동 하는 구분주기
 		//해더부분에서 준 구분값을 활용하여 사용한다 생각하면 이해하기 쉬움
 		if(cate == "outer"){ 
@@ -475,22 +516,23 @@ $(()=>{
 
 //상품 선택 갯수 부분 
 //function fnCalCount(type, ths){
-let fnCalCount = ((type, ths)=>{
+// let fnCalCount = ((type, ths)=>{
 
-	let $input = $(ths).parents("td").find("input[name='pop_out']"); // td가 부모이면서 input의 name이 pop_out인것
-    let tCount = Number($input.val());
-    let tEqCount = Number($('#stockQuantity').val());//재고 이상으로 카운트가 올라가는 것을 방지
+// 	let $input = $(ths).parents("td").find("input[name='pop_out']"); // td가 부모이면서 input의 name이 pop_out인것
+//     let tCount = Number($input.val());
+//     let tEqCount = Number($('#stockQuantity').val());//재고 이상으로 카운트가 올라가는 것을 방지
     
-    if(type=='p'){
-    	if(tCount < tEqCount){ $input.val(Number(tCount)+1);}
-        else{ if(tCount >0) $input.val(Number(tCount)-1);}
-    }
-    let proCount = $('#proCount').val(); //상품선택 개수
-    let proPrice = $('#proPrice').val(); //상품가격
-    let totalPrice = proPrice*proCount; //총가격 = 선택된 상품 개수* 상품 가격
+//     if(type=='p'){
+//     	console.log("qweqwe____", tCount, tEqCount);
+//     	if(tCount < tEqCount){ $input.val(Number(tCount)+1);}
+//         else{ if(tCount >0) $input.val(Number(tCount)-1);}
+//     }
+//     let proCount = $('#proCount').val(); //상품선택 개수
+//     let proPrice = $('#proPrice').val(); //상품가격
+//     let totalPrice = proPrice*proCount; //총가격 = 선택된 상품 개수* 상품 가격
     
-    $('#totalPricem').text(comma(totalPrice)+"원 ("+proCount+"개)"); //html 상에서  콤마가 들어가서 보이게 하기위해 fmt사용했지만 함수사용으로 갈아치기 위해 comma함수 사용하면서 text로 갈아침
-});
+//     $('#totalPricem').text(comma(totalPrice)+"원 ("+proCount+"개)"); //html 상에서  콤마가 들어가서 보이게 하기위해 fmt사용했지만 함수사용으로 갈아치기 위해 comma함수 사용하면서 text로 갈아침
+// });
 
 </script>
 </html>

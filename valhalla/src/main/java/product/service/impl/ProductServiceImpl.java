@@ -18,6 +18,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductVO> getProductCategory(ProductVO productVo) {
+		
+		
 		return productDao.productCategory(productVo);
 	}
 	
@@ -35,9 +37,5 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductVO> getProductSeason(ProductVO productVo) {
 		return productDao.ProductSeason(productVo);
 	}
-	
-
-	
-	
 
 }

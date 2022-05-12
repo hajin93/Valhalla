@@ -5,6 +5,11 @@
 <mapper namespace="productDAO">
 
 	<!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. -->
+	
+	<!-- ============================================= -->
+	<!-- SQLID : selectBoardList					   -->
+	<!-- 설명 : 게시판 조회	 							   -->
+	<!-- ============================================= -->
 	<select id="selectBoardList" parameterType="productVo" resultType="productVo">
 	SELECT NUM
 	     , NAME
@@ -16,6 +21,11 @@
 	 ORDER BY NUM DESC
 	</select>
 	
+	<!-- ============================================= -->
+	<!-- SQLID : productCategory					   -->
+	<!-- 설명 : 제품 카테고리별 조회 						   -->
+	<!--	   금액 낮은/높은 순		 					   -->
+	<!-- ============================================= -->
 	<select id="productCategory" parameterType="productVo" resultType="productVo">
 		SELECT *
 		  FROM PRODUCT
@@ -27,15 +37,32 @@
 		 ORDER BY PRODUCT_PRICE DESC
 		 </if>
 	</select>
+	
+	<!-- ============================================= -->
+	<!-- SQLID : allProduct 						   -->
+	<!-- 설명 : 모든상품조회	 						   	   -->
+	<!-- ============================================= -->
 	<select id="allProduct" parameterType="productVo" resultType="productVo">
 		SELECT *
 		  FROM PRODUCT
 	</select>
+	
+	<!-- ============================================= -->
+	<!-- SQLID : productNo 						   	   -->
+	<!-- 설명 : 제품상세조회	 						       -->
+	<!-- ============================================= -->
 	<select id="productNo" parameterType="productVo" resultType="productVo">
 		SELECT *
 		  FROM PRODUCT
 		 WHERE PRODUCT_No = #{productNo}
 	</select>
+	
+	<!-- ============================================= -->
+	<!-- SQLID : ProductSeason 						   -->
+	<!-- 설명 : 제품시즌별상세조회	 						   -->
+	<!--	   시즌별 조회			 					   -->
+	<!--	   금액 낮은/높은 순		 					   -->
+	<!-- ============================================= -->
 	<select id="ProductSeason" parameterType="productVo" resultType="productVo">
 		SELECT *
 		  FROM PRODUCT
