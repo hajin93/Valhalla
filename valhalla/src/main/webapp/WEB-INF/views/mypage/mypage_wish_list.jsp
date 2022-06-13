@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -29,7 +28,7 @@
 								<div class="ec-base-prdInfo gCheck xans-record-">
 									<div class="prdBox">
 										<span class="check">
-											<input name="wishck" id="wish${status.index}" enable-order="" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="" type="checkbox">
+											<input name="wishck" id="wish${status.index}" enable-order="" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="" type="checkbox" onclick="chkNum('${status.index}')">
 										</span>
 										<div class="thumbnail">
 											<a href="#none;">
@@ -38,6 +37,7 @@
 										<div class="description">
 											<strong class="prdName" title="상품명">
 											<a href="#none;" class="ec-product-name">${wishList.productName}</a></strong>
+											<input type="hidden" id="productNo" name="productNo" value=${wishList.productNo}>
 											<ul class="price">
 												<li><strong class="" title="판매가"><fmt:formatNumber value="${wishList.productPrice}" pattern="#,###" />원</strong></li>
 											</ul>
@@ -83,6 +83,34 @@
 				<hr class="layout">
 			</div>
 			<hr class="layout">
-			<%@ include file="../common/footer.jsp" %>	
+			<%@ include file="../common/footer.jsp" %>
+<!-- 제품상세페이지로 이동 -->	
+<from id="movedPD" method="post" action="/productDtail.do">
+	<input type="hidden" id="productNo" name="productNo" val=""/>
+</from>
+<!-- 주문상세페이지로 이동 -->
+<form id="movedOrder" method="post" action="/orderForm.do">
+	<input type="hidden" id="productNo" name="productNo" value=""/>
+	<input type="hidden" id="countnum" name="quantity" value=""/>
+</form>
+<!-- 장바구니로 이동 -->
+<form id="movedCart" method="post" action="/orderBasket.do">
+	<input type="hidden" id="cuserNo" name="userNo" value=""/>
+</form>
+
 </body>
+<script type="text/javascript">
+$(()=>{
+
+	
+	
+});
+
+function chkNum(idx){
+	console.log(idx);
+	
+	
+}
+</script>
+
 </html>
