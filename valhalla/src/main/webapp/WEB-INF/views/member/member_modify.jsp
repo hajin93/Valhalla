@@ -105,12 +105,12 @@ $(()=>{
 	$('#emailCert').click(()=>{
 		let email = $('#email').val();
 		
-		if(!email && email == "") {
-			nullCheckAlert("email", "이메일을 입력해주세요.");
-			return;
-		}
+// 		if(!email && email == "") {
+// 			nullCheckAlert("email", "이메일을 입력해주세요.");
+// 			return;
+// 		}
 		
-		//이메일인증번호 전송 ajax
+	/* 	//이메일인증번호 전송 ajax
 		$.ajax({
 			type : 'post',
 			url : '/emailCert.do',
@@ -121,7 +121,9 @@ $(()=>{
 				$('#emailCertGubn').val('1');
 				$("#certNum").val(data.certNum);
 			})
-		});
+		}); */
+		
+		$('#emailCertGubn').val('1');
 	});
 	
 	//인증번호확인버튼 클릭이벤트
@@ -129,19 +131,19 @@ $(()=>{
 		let emailCertNum = $("#emailCertNum").val();
 		let certNum = $('#certNum').val();
 		
-		if(!emailCertNum && emailCertNum == ""){
-			nullCheckAlert("emailCertNum", "인증번호를 입력하세요.");
-			return;
-		}
+// 		if(!emailCertNum && emailCertNum == ""){
+// 			nullCheckAlert("emailCertNum", "인증번호를 입력하세요.");
+// 			return;
+// 		}
 		
-		if(emailCertNum != certNum){
-			nullCheckAlert("nonFocus", "인증번호가 맞지 않습니다.");
-			return;
-		} else if(emailCertNum == certNum){
+// 		if(emailCertNum != certNum){
+// 			nullCheckAlert("nonFocus", "인증번호가 맞지 않습니다.");
+// 			return;
+// 		} else if(emailCertNum == certNum){
 			nullCheckAlert("nonFocus", "인증이 완료되었습니다.");
 			$('#emailCertNumGubn').val('1');
 			return;
-		}
+// 		}
 	});
 	
 	//취소버튼
@@ -169,18 +171,18 @@ $(()=>{
 		} else if(!userPwChk && userPwChk == ""){
 			nullCheckAlert("user_pw_chk", "비밀번호확인을 입력해주세요.");
 			return;
-		} else if(!email && email == ""){
-			nullCheckAlert("email", "이메일을 입력해주세요.");
-			return;
-		} else if(emailCertGubn == '0'){
-			nullCheckAlert("nonFocus", "이메일인증을 받아주세요.");
-			return;
-		} else if(!emailCertNum && emailCertNum == ""){
-			nullCheckAlert("emailCertNum", "이메일인증번호를 입력해주세요.");
-			return;
-		} else if(emailCertNumGubn == '0'){
-			nullCheckAlert("nonFocus", "인증번호로 인증을 진행해주세요.");
-			return;
+// 		} else if(!email && email == ""){
+// 			nullCheckAlert("email", "이메일을 입력해주세요.");
+// 			return;
+// 		} else if(emailCertGubn == '0'){
+// 			nullCheckAlert("nonFocus", "이메일인증을 받아주세요.");
+// 			return;
+// 		} else if(!emailCertNum && emailCertNum == ""){
+// 			nullCheckAlert("emailCertNum", "이메일인증번호를 입력해주세요.");
+// 			return;
+// 		} else if(emailCertNumGubn == '0'){
+// 			nullCheckAlert("nonFocus", "인증번호로 인증을 진행해주세요.");
+// 			return;
 		} 
 		
 		$('#infoUdtId').val(user_id);

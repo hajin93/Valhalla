@@ -45,18 +45,18 @@ public class UserController {
 	@RequestMapping("memberJoinResult.do")
 	public String member_join_result(Model model, UserVO userVo) {
 		
-		try {
-			
-			SHA256 sha = new SHA256();
-			String pw = userVo.getUserPw();
-			pw = sha.encrypt(pw).toString();
-			userVo.setUserPw(pw);
-			
-			userServiceImpl.joinInsert(userVo);
-			
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			
+//			SHA256 sha = new SHA256();
+//			String pw = userVo.getUserPw();
+//			pw = sha.encrypt(pw).toString();
+//			userVo.setUserPw(pw);
+//			
+//			userServiceImpl.joinInsert(userVo);
+//			
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		}
 		
 		model.addAttribute("userId", userVo.getUserId());
 		model.addAttribute("userName", userVo.getUserName());
@@ -145,14 +145,14 @@ public class UserController {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
-		try {
-			SHA256 sha = new SHA256();			
-			String pw = userVo.getUserPw();
-			pw = sha.encrypt(pw);
-			userVo.setUserPw(pw);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			SHA256 sha = new SHA256();			
+//			String pw = userVo.getUserPw();
+//			pw = sha.encrypt(pw);
+//			userVo.setUserPw(pw);
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		}
 		
 		int chkNum = userServiceImpl.getUserPwCompare(userVo);
 		
@@ -180,16 +180,16 @@ public class UserController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<UserVO> userList = new ArrayList<UserVO>();
 		
-		try {
-			
-			SHA256 sha = new SHA256();
-			String pw = userVo.getUserPw();
-			pw = sha.encrypt(pw);
-			userVo.setUserPw(pw);
-			
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			
+//			SHA256 sha = new SHA256();
+//			String pw = userVo.getUserPw();
+//			pw = sha.encrypt(pw);
+//			userVo.setUserPw(pw);
+//			
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		}
 		
 		int chkNum = userServiceImpl.getLoginChking(userVo);
 		if(chkNum > 0) {
@@ -259,7 +259,7 @@ public class UserController {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		
+		 
 		userServiceImpl.getUpdatePw(userVo);
 		
 		map.put("msg", "비밀번호변경이 완료되었습니다.");

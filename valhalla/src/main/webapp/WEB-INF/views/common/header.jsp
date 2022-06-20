@@ -84,14 +84,16 @@ $(()=>{
    let top_master = "<a href='#none;' id='isLoginBtn'><span id='isLogin'>Login</span></a>";
    
    //gubn : U 혹은 "" 일때는 일반사용자 , gubn : M 일때는 관리자
-   if(gubn == "U"){
-      $('#top_menu').html(top_noMaster);
-   } else if(gubn == ""){
-      $("#top_menu").html(top_normal);   
-   } else if(gubn == "M"){
-      $('#top_menu').html(top_master);
-      $('#navi_menu').css("display",'none');
-   }
+//    if(gubn == "U"){
+//       $('#top_menu').html(top_noMaster);
+//    } else if(gubn == ""){
+//       $("#top_menu").html(top_normal);   
+//    } else if(gubn == "M"){
+//       $('#top_menu').html(top_master);
+//       $('#navi_menu').css("display",'none');
+//    }
+   
+   $('#top_menu').html(top_noMaster);
    
    //
    if(userId != "")  $('#isLogin').text('LogOut');
